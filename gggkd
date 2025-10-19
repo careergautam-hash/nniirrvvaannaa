@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Periodic Table — Force Layout Animation (D3)</title>
+<style>
+  :root{
+    --bg:#0f1724;
+    --card:#071028;
+    --text:#e6eef8;
+    --muted:#94a3b8;
+    --panel:#071029;
+  }
+  html,body{height:100%; margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:linear-gradient(180deg,#071026, #07102a); color:var(--text)}
+  .app { display:flex; height:100vh; gap:12px; padding:12px; box-sizing:border-box; }
+  .left {
+    flex:1 1 0;
+    min-width:0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:12px;
+    padding:12px;
+    box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    display:flex; flex-direction:column;
+  }
+  .controls {
+    display:flex; gap:8px; align-items:center; margin-bottom:8px; flex-wrap:wrap;
+  }
+  .controls .group {
+    display:flex; gap:8px; align-items:center;
+  }
+  .btn {
+    background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text); padding:8px 10px; border-radius:8px; cursor:pointer;
+  }
+  .btn.primary { background:linear-gradient(90deg,#3b82f6,#60a5fa); color:#021028; border:none; font-weight:700; }
+  .controls input[type="range"] { width:140px; }
+  .controls input[type="search"] { padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.01); color:var(--text) }
+  #legend { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-left:8px; color:var(--muted); }
+  .legend-item { display:flex; gap:6px; align-items:center; padding:6px 8px; border-radius:8px; background:rgba(255,255,255,0.02); font-size:12px }
+  .legend-swatch { width:14px; height:14px; border-radius:4px; border:1px solid rgba(255,255,255,0.04) }
+
+  .vis-wrap { flex:1 1 0; position:relative; display:flex; }
+  svg { width:100%; height:100%; display:block; border-radius:8px; background: linear-gradient(180deg, rgba(255,255,255,0.005), rgba(255,255,255,0.002)); border-radius:8px; }
+
+  .tooltip {
+    position:absolute;
+    pointer-events:none;
+    background:rgba(2,6,23,0.9);
+    color:var(--text);
+    padding:8px 10px;
+    border-radius:8px;
+    font-size:13px;
+    box-shadow:0 6px 20px rgba(2,6,23,0.6);
+    display:none;
+    z-index:40;
+    min-width:140px;
+  }
+
+  .right {
+    width:320px;
+    max-width:40%;
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    border-radius:12px;
+    padding:12px;
+    box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .panel-title { font-weight:700; font-size:16px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .details { background:rgba(255,255,255,0.02); padding:10px; border-radius:10px; color:var(--text); font-size:14px; line-height:1.5 }
+  .groups { display:flex; gap:6px; flex-wrap:wrap; }
+  .chip { padding:6px 8px; border-radius:999px; background:rgba(255,255,255,0.02); font-size:13px; border:1px solid rgba(255,255,255,0.03) }
+
+  .footer {
+    font-size:12px; color:var(--muted); margin-top:auto;
+  }
+
+  /* node label */
+  .node-label { font-size:11px; text-anchor:middle; pointer-events:none; fill:#021028; font-weight:700; }
+
+  /* style for search highlight */
+  .node.highlight { stroke:#fff; stroke-width:2px; filter:drop-shadow(0 6px 18px rgba(255,255,255,0.02)); }
+
+  @media (max-width:1000px){
+    .app{flex-direction:column}
+    .right { width:100%; max-width:100% }
+  }
+</style>
+</head>
+<body>
+<div class="app" role="application" aria-label="Periodic table force layout">
+  <div class="left">
+    <div class="controls" aria-hidden="false">
+      <div class="group">
+        <button id="play-pause" class="btn primary">Pause</button>
+        <button id="reset" class="btn">Reset</button>
+      </div>
+
+      <div class="group">
+        <label title="Simulation speed" style="color:var(--muted); font-size:13px">Speed</label>
+        <input id="speed" type="range" min="0.2" max="2.5" step="0.1" value="1">
+      </div>
+
+      <div class="group">
+        <label style="color:var(--muted); font-size:13px">Layout</label>
+        <select id="layout-select" class="btn" aria-label="Choose layout" style="padding:8px; background:transparent; border-radius:8px">
+          <option value="force">Force</option>
+          <option value="table">Table (period × group)</option>
+          <option value="category">Cluster by Category</option>
+          <option value="block">Cluster by Block</option>
+        </select>
+      </div>
+
+      <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+        <input id="search" type="search" placeholder="Search name or symbol" />
+        <div id="legend"></div>
+      </div>
+    </div>
+
+    <div class="vis-wrap">
+      <svg id="svg"></svg>
+      <div id="tooltip" class="tooltip" role="tooltip"></div>
+    </div>
+
+    <div style="display:flex; gap:8px; margin-top:8px;">
+      <div style="flex:1; color:var(--muted); font-size:13px">
+        Drag nodes to explore. Click a node for details. Use Layout to rearrange by category/table/block.
+      </div>
+      <div style="color:var(--muted); font-size:13px">Nodes: <span id="count">118</span></div>
+    </div>
+  </div>
+
+  <aside class="right" aria-label="Detail panel">
+    <div class="panel-title">
+      <div>Element details</div>
+      <div id="selected-symbol" style="font-weight:800; font-size:20px; color:#fff"></div>
+    </div>
+    <div id="detail" class="details">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:8px;">
+        <div>
+          <div id="detail-name" style="font-weight:800; font-size:18px"></div>
+          <div id="detail-number" style="color:var(--muted); font-size:13px"></div>
+        </div>
+        <div style="text-align:right">
+          <div id="detail-mass" style="font-weight:700; font-size:16px"></div>
+          <div style="color:var(--muted); font-size:12px">Atomic mass</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <div class="chip" id="detail-category"></div>
+        <div class="chip" id="detail-block"></div>
+        <div class="chip" id="detail-group"></div>
+        <div class="chip" id="detail-period"></div>
+      </div>
+
+      <div style="margin-top:10px; color:var(--muted); font-size:13px" id="detail-desc">
+        Click a node to see more information.
+      </div>
+    </div>
+
+    <div style="display:flex; gap:8px; margin-top:8px;">
+      <button id="focus-all" class="btn">Reset Zoom/Focus</button>
+      <button id="auto-layout" class="btn">Auto Layout (Table)</button>
+    </div>
+
+    <div class="footer">Data: basic element info (atomic number, symbol, name, atomic mass, group, period, category, block). Visualization: D3 v7</div>
+  </aside>
+</div>
+
+<!-- D3 v7 CDN -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+/*
+  Periodic table force-layout visualization
+  - Full 118-element dataset included below.
+  - Layout modes: force, table (period × group), category cluster, block cluster.
+  - Controls: play/pause, reset, speed, layout select, search.
+  - Interaction: drag, hover tooltip, click detail panel.
+*/
+
+// ---------- ELEMENT DATA (118 elements) ----------
+const elements = [
+  // number, symbol, name, atomic_mass, group (1-18 or null), period (1-7), category, block
+  {number:1,symbol:"H",name:"Hydrogen",atomic_mass:1.008,group:1,period:1,category:"nonmetal",block:"s"},
+  {number:2,symbol:"He",name:"Helium",atomic_mass:4.0026,group:18,period:1,category:"noble gas",block:"s"},
+  {number:3,symbol:"Li",name:"Lithium",atomic_mass:6.94,group:1,period:2,category:"alkali metal",block:"s"},
+  {number:4,symbol:"Be",name:"Beryllium",atomic_mass:9.0122,group:2,period:2,category:"alkaline earth metal",block:"s"},
+  {number:5,symbol:"B",name:"Boron",atomic_mass:10.81,group:13,period:2,category:"metalloid",block:"p"},
+  {number:6,symbol:"C",name:"Carbon",atomic_mass:12.011,group:14,period:2,category:"nonmetal",block:"p"},
+  {number:7,symbol:"N",name:"Nitrogen",atomic_mass:14.007,group:15,period:2,category:"nonmetal",block:"p"},
+  {number:8,symbol:"O",name:"Oxygen",atomic_mass:15.999,group:16,period:2,category:"nonmetal",block:"p"},
+  {number:9,symbol:"F",name:"Fluorine",atomic_mass:18.998,group:17,period:2,category:"halogen",block:"p"},
+  {number:10,symbol:"Ne",name:"Neon",atomic_mass:20.180,group:18,period:2,category:"noble gas",block:"p"},
+
+  {number:11,symbol:"Na",name:"Sodium",atomic_mass:22.990,group:1,period:3,category:"alkali metal",block:"s"},
+  {number:12,symbol:"Mg",name:"Magnesium",atomic_mass:24.305,group:2,period:3,category:"alkaline earth metal",block:"s"},
+  {number:13,symbol:"Al",name:"Aluminium",atomic_mass:26.982,group:13,period:3,category:"post-transition metal",block:"p"},
+  {number:14,symbol:"Si",name:"Silicon",atomic_mass:28.085,group:14,period:3,category:"metalloid",block:"p"},
+  {number:15,symbol:"P",name:"Phosphorus",atomic_mass:30.974,group:15,period:3,category:"nonmetal",block:"p"},
+  {number:16,symbol:"S",name:"Sulfur",atomic_mass:32.06,group:16,period:3,category:"nonmetal",block:"p"},
+  {number:17,symbol:"Cl",name:"Chlorine",atomic_mass:35.45,group:17,period:3,category:"halogen",block:"p"},
+  {number:18,symbol:"Ar",name:"Argon",atomic_mass:39.948,group:18,period:3,category:"noble gas",block:"p"},
+
+  {number:19,symbol:"K",name:"Potassium",atomic_mass:39.098,group:1,period:4,category:"alkali metal",block:"s"},
+  {number:20,symbol:"Ca",name:"Calcium",atomic_mass:40.078,group:2,period:4,category:"alkaline earth metal",block:"s"},
+  {number:21,symbol:"Sc",name:"Scandium",atomic_mass:44.956,group:3,period:4,category:"transition metal",block:"d"},
+  {number:22,symbol:"Ti",name:"Titanium",atomic_mass:47.867,group:4,period:4,category:"transition metal",block:"d"},
+  {number:23,symbol:"V",name:"Vanadium",atomic_mass:50.942,group:5,period:4,category:"transition metal",block:"d"},
+  {number:24,symbol:"Cr",name:"Chromium",atomic_mass:51.996,group:6,period:4,category:"transition metal",block:"d"},
+  {number:25,symbol:"Mn",name:"Manganese",atomic_mass:54.938,group:7,period:4,category:"transition metal",block:"d"},
+  {number:26,symbol:"Fe",name:"Iron",atomic_mass:55.845,group:8,period:4,category:"transition metal",block:"d"},
+  {number:27,symbol:"Co",name:"Cobalt",atomic_mass:58.933,group:9,period:4,category:"transition metal",block:"d"},
+  {number:28,symbol:"Ni",name:"Nickel",atomic_mass:58.693,group:10,period:4,category:"transition metal",block:"d"},
+  {number:29,symbol:"Cu",name:"Copper",atomic_mass:63.546,group:11,period:4,category:"transition metal",block:"d"},
+  {number:30,symbol:"Zn",name:"Zinc",atomic_mass:65.38,group:12,period:4,category:"transition metal",block:"d"},
+  {number:31,symbol:"Ga",name:"Gallium",atomic_mass:69.723,group:13,period:4,category:"post-transition metal",block:"p"},
+  {number:32,symbol:"Ge",name:"Germanium",atomic_mass:72.630,group:14,period:4,category:"metalloid",block:"p"},
+  {number:33,symbol:"As",name:"Arsenic",atomic_mass:74.922,group:15,period:4,category:"metalloid",block:"p"},
+  {number:34,symbol:"Se",name:"Selenium",atomic_mass:78.971,group:16,period:4,category:"nonmetal",block:"p"},
+  {number:35,symbol:"Br",name:"Bromine",atomic_mass:79.904,group:17,period:4,category:"halogen",block:"p"},
+  {number:36,symbol:"Kr",name:"Krypton",atomic_mass:83.798,group:18,period:4,category:"noble gas",block:"p"},
+
+  {number:37,symbol:"Rb",name:"Rubidium",atomic_mass:85.468,group:1,period:5,category:"alkali metal",block:"s"},
+  {number:38,symbol:"Sr",name:"Strontium",atomic_mass:87.62,group:2,period:5,category:"alkaline earth metal",block:"s"},
+  {number:39,symbol:"Y",name:"Yttrium",atomic_mass:88.906,group:3,period:5,category:"transition metal",block:"d"},
+  {number:40,symbol:"Zr",name:"Zirconium",atomic_mass:91.224,group:4,period:5,category:"transition metal",block:"d"},
+  {number:41,symbol:"Nb",name:"Niobium",atomic_mass:92.906,group:5,period:5,category:"transition metal",block:"d"},
+  {number:42,symbol:"Mo",name:"Molybdenum",atomic_mass:95.95,group:6,period:5,category:"transition metal",block:"d"},
+  {number:43,symbol:"Tc",name:"Technetium",atomic_mass:98,group:7,period:5,category:"transition metal",block:"d"},
+  {number:44,symbol:"Ru",name:"Ruthenium",atomic_mass:101.07,group:8,period:5,category:"transition metal",block:"d"},
+  {number:45,symbol:"Rh",name:"Rhodium",atomic_mass:102.91,group:9,period:5,category:"transition metal",block:"d"},
+  {number:46,symbol:"Pd",name:"Palladium",atomic_mass:106.42,group:10,period:5,category:"transition metal",block:"d"},
+  {number:47,symbol:"Ag",name:"Silver",atomic_mass:107.87,group:11,period:5,category:"transition metal",block:"d"},
+  {number:48,symbol:"Cd",name:"Cadmium",atomic_mass:112.41,group:12,period:5,category:"transition metal",block:"d"},
+  {number:49,symbol:"In",name:"Indium",atomic_mass:114.82,group:13,period:5,category:"post-transition metal",block:"p"},
+  {number:50,symbol:"Sn",name:"Tin",atomic_mass:118.71,group:14,period:5,category:"post-transition metal",block:"p"},
+  {number:51,symbol:"Sb",name:"Antimony",atomic_mass:121.76,group:15,period:5,category:"metalloid",block:"p"},
+  {number:52,symbol:"Te",name:"Tellurium",atomic_mass:127.60,group:16,period:5,category:"metalloid",block:"p"},
+  {number:53,symbol:"I",name:"Iodine",atomic_mass:126.90,group:17,period:5,category:"halogen",block:"p"},
+  {number:54,symbol:"Xe",name:"Xenon",atomic_mass:131.29,group:18,period:5,category:"noble gas",block:"p"},
+
+  {number:55,symbol:"Cs",name:"Caesium",atomic_mass:132.91,group:1,period:6,category:"alkali metal",block:"s"},
+  {number:56,symbol:"Ba",name:"Barium",atomic_mass:137.33,group:2,period:6,category:"alkaline earth metal",block:"s"},
+  {number:57,symbol:"La",name:"Lanthanum",atomic_mass:138.91,group:3,period:6,category:"lanthanoid",block:"f"},
+  {number:58,symbol:"Ce",name:"Cerium",atomic_mass:140.12,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:59,symbol:"Pr",name:"Praseodymium",atomic_mass:140.91,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:60,symbol:"Nd",name:"Neodymium",atomic_mass:144.24,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:61,symbol:"Pm",name:"Promethium",atomic_mass:145,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:62,symbol:"Sm",name:"Samarium",atomic_mass:150.36,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:63,symbol:"Eu",name:"Europium",atomic_mass:151.96,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:64,symbol:"Gd",name:"Gadolinium",atomic_mass:157.25,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:65,symbol:"Tb",name:"Terbium",atomic_mass:158.93,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:66,symbol:"Dy",name:"Dysprosium",atomic_mass:162.50,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:67,symbol:"Ho",name:"Holmium",atomic_mass:164.93,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:68,symbol:"Er",name:"Erbium",atomic_mass:167.26,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:69,symbol:"Tm",name:"Thulium",atomic_mass:168.93,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:70,symbol:"Yb",name:"Ytterbium",atomic_mass:173.05,group:null,period:6,category:"lanthanoid",block:"f"},
+  {number:71,symbol:"Lu",name:"Lutetium",atomic_mass:174.97,group:3,period:6,category:"lanthanoid",block:"f"},
+  {number:72,symbol:"Hf",name:"Hafnium",atomic_mass:178.49,group:4,period:6,category:"transition metal",block:"d"},
+  {number:73,symbol:"Ta",name:"Tantalum",atomic_mass:180.95,group:5,period:6,category:"transition metal",block:"d"},
+  {number:74,symbol:"W",name:"Tungsten",atomic_mass:183.84,group:6,period:6,category:"transition metal",block:"d"},
+  {number:75,symbol:"Re",name:"Rhenium",atomic_mass:186.21,group:7,period:6,category:"transition metal",block:"d"},
+  {number:76,symbol:"Os",name:"Osmium",atomic_mass:190.23,group:8,period:6,category:"transition metal",block:"d"},
+  {number:77,symbol:"Ir",name:"Iridium",atomic_mass:192.22,group:9,period:6,category:"transition metal",block:"d"},
+  {number:78,symbol:"Pt",name:"Platinum",atomic_mass:195.08,group:10,period:6,category:"transition metal",block:"d"},
+  {number:79,symbol:"Au",name:"Gold",atomic_mass:196.97,group:11,period:6,category:"transition metal",block:"d"},
+  {number:80,symbol:"Hg",name:"Mercury",atomic_mass:200.59,group:12,period:6,category:"transition metal",block:"d"},
+  {number:81,symbol:"Tl",name:"Thallium",atomic_mass:204.38,group:13,period:6,category:"post-transition metal",block:"p"},
+  {number:82,symbol:"Pb",name:"Lead",atomic_mass:207.2,group:14,period:6,category:"post-transition metal",block:"p"},
+  {number:83,symbol:"Bi",name:"Bismuth",atomic_mass:208.98,group:15,period:6,category:"post-transition metal",block:"p"},
+  {number:84,symbol:"Po",name:"Polonium",atomic_mass:209,group:16,period:6,category:"metalloid",block:"p"},
+  {number:85,symbol:"At",name:"Astatine",atomic_mass:210,group:17,period:6,category:"halogen",block:"p"},
+  {number:86,symbol:"Rn",name:"Radon",atomic_mass:222,group:18,period:6,category:"noble gas",block:"p"},
+
+  {number:87,symbol:"Fr",name:"Francium",atomic_mass:223,group:1,period:7,category:"alkali metal",block:"s"},
+  {number:88,symbol:"Ra",name:"Radium",atomic_mass:226,group:2,period:7,category:"alkaline earth metal",block:"s"},
+  {number:89,symbol:"Ac",name:"Actinium",atomic_mass:227,group:3,period:7,category:"actinoid",block:"f"},
+  {number:90,symbol:"Th",name:"Thorium",atomic_mass:232.04,group:null,period:7,category:"actinoid",block:"f"},
+  {number:91,symbol:"Pa",name:"Protactinium",atomic_mass:231.04,group:null,period:7,category:"actinoid",block:"f"},
+  {number:92,symbol:"U",name:"Uranium",atomic_mass:238.03,group:null,period:7,category:"actinoid",block:"f"},
+  {number:93,symbol:"Np",name:"Neptunium",atomic_mass:237,group:null,period:7,category:"actinoid",block:"f"},
+  {number:94,symbol:"Pu",name:"Plutonium",atomic_mass:244,group:null,period:7,category:"actinoid",block:"f"},
+  {number:95,symbol:"Am",name:"Americium",atomic_mass:243,group:null,period:7,category:"actinoid",block:"f"},
+  {number:96,symbol:"Cm",name:"Curium",atomic_mass:247,group:null,period:7,category:"actinoid",block:"f"},
+  {number:97,symbol:"Bk",name:"Berkelium",atomic_mass:247,group:null,period:7,category:"actinoid",block:"f"},
+  {number:98,symbol:"Cf",name:"Californium",atomic_mass:251,group:null,period:7,category:"actinoid",block:"f"},
+  {number:99,symbol:"Es",name:"Einsteinium",atomic_mass:252,group:null,period:7,category:"actinoid",block:"f"},
+  {number:100,symbol:"Fm",name:"Fermium",atomic_mass:257,group:null,period:7,category:"actinoid",block:"f"},
+  {number:101,symbol:"Md",name:"Mendelevium",atomic_mass:258,group:null,period:7,category:"actinoid",block:"f"},
+  {number:102,symbol:"No",name:"Nobelium",atomic_mass:259,group:null,period:7,category:"actinoid",block:"f"},
+  {number:103,symbol:"Lr",name:"Lawrencium",atomic_mass:266,group:3,period:7,category:"actinoid",block:"f"},
+  {number:104,symbol:"Rf",name:"Rutherfordium",atomic_mass:267,group:4,period:7,category:"transition metal",block:"d"},
+  {number:105,symbol:"Db",name:"Dubnium",atomic_mass:268,group:5,period:7,category:"transition metal",block:"d"},
+  {number:106,symbol:"Sg",name:"Seaborgium",atomic_mass:269,group:6,period:7,category:"transition metal",block:"d"},
+  {number:107,symbol:"Bh",name:"Bohrium",atomic_mass:270,group:7,period:7,category:"transition metal",block:"d"},
+  {number:108,symbol:"Hs",name:"Hassium",atomic_mass:269,group:8,period:7,category:"transition metal",block:"d"},
+  {number:109,symbol:"Mt",name:"Meitnerium",atomic_mass:278,group:9,period:7,category:"unknown",block:"d"},
+  {number:110,symbol:"Ds",name:"Darmstadtium",atomic_mass:281,group:10,period:7,category:"unknown",block:"d"},
+  {number:111,symbol:"Rg",name:"Roentgenium",atomic_mass:282,group:11,period:7,category:"unknown",block:"d"},
+  {number:112,symbol:"Cn",name:"Copernicium",atomic_mass:285,group:12,period:7,category:"transition metal",block:"d"},
+  {number:113,symbol:"Nh",name:"Nihonium",atomic_mass:286,group:13,period:7,category:"post-transition metal",block:"p"},
+  {number:114,symbol:"Fl",name:"Flerovium",atomic_mass:289,group:14,period:7,category:"post-transition metal",block:"p"},
+  {number:115,symbol:"Mc",name:"Moscovium",atomic_mass:290,group:15,period:7,category:"post-transition metal",block:"p"},
+  {number:116,symbol:"Lv",name:"Livermorium",atomic_mass:293,group:16,period:7,category:"post-transition metal",block:"p"},
+  {number:117,symbol:"Ts",name:"Tennessine",atomic_mass:294,group:17,period:7,category:"halogen",block:"p"},
+  {number:118,symbol:"Og",name:"Oganesson",atomic_mass:294,group:18,period:7,category:"noble gas",block:"p"}
+];
+
+// ---------- Category color scale ----------
+const categories = Array.from(new Set(elements.map(d=>d.category))).sort();
+const categoryColors = {
+  "alkali metal": "#ff7f0e",
+  "alkaline earth metal": "#ffbb78",
+  "lanthanoid": "#c49cde",
+  "actinoid": "#f7b6d2",
+  "transition metal": "#1f77b4",
+  "post-transition metal": "#8c564b",
+  "metalloid": "#2ca02c",
+  "nonmetal": "#aec7e8",
+  "noble gas": "#9467bd",
+  "halogen": "#d62728",
+  "unknown": "#7f7f7f"
+};
+
+// ensure all categories have a color
+categories.forEach(cat => { if(!categoryColors[cat]) categoryColors[cat] = d3.schemeTableau10[Math.floor(Math.random()*10)]; });
+
+// ---------- SVG setup ----------
+const svg = d3.select("#svg");
+const width = svg.node().clientWidth;
+const height = svg.node().clientHeight;
+const g = svg.append("g");
+
+// responsive resize
+function size() {
+  const w = svg.node().clientWidth, h = svg.node().clientHeight;
+  simulation.force("x", d3.forceX(d => d.x0 !== undefined ? d.x0 : w/2).strength(0.08));
+  simulation.force("y", d3.forceY(d => d.y0 !== undefined ? d.y0 : h/2).strength(0.08));
+}
+window.addEventListener("resize", () => {
+  // update width/height dependent values if needed
+});
+
+// node size scale by atomic mass
+const massExtent = d3.extent(elements, d=>d.atomic_mass || 0);
+const rScale = d3.scaleSqrt().domain(massExtent).range([8,28]);
+
+// initial node positions randomish
+elements.forEach(d => {
+  d.x = Math.random() * width;
+  d.y = Math.random() * height;
+});
+
+// ---------- Force simulation ----------
+const simulation = d3.forceSimulation(elements)
+  .force("charge", d3.forceManyBody().strength(-18))
+  .force("collision", d3.forceCollide().radius(d => rScale(d.atomic_mass) + 3))
+  .force("center", d3.forceCenter(width/2, height/2))
+  .velocityDecay(0.2)
+  .alphaTarget(0.2)
+  .on("tick", ticked);
+
+// SVG defs for subtle glow
+const defs = svg.append("defs");
+const filter = defs.append("filter").attr("id","shadow").attr("x","-50%").attr("y","-50%").attr("width","200%").attr("height","200%");
+filter.append("feDropShadow").attr("dx",0).attr("dy",4).attr("stdDeviation",6).attr("flood-opacity",0.12);
+
+// nodes group
+const nodeG = g.append("g").attr("class","nodes");
+
+// create node groups
+const node = nodeG.selectAll("g.node").data(elements, d => d.number).enter()
+  .append("g")
+  .attr("class","node")
+  .call(drag(simulation));
+
+// circle
+node.append("circle")
+  .attr("r", d => rScale(d.atomic_mass))
+  .attr("fill", d => categoryColors[d.category] || "#999")
+  .attr("stroke", "rgba(2,6,23,0.2)")
+  .attr("stroke-width", 1.2)
+  .style("filter","url(#shadow)")
+  .on("mouseover", handleMouseOver)
+  .on("mousemove", handleMouseMove)
+  .on("mouseout", handleMouseOut)
+  .on("click", handleClick);
+
+// symbol label
+node.append("text")
+  .attr("class","node-label")
+  .attr("dy", 4)
+  .text(d => d.symbol)
+  .style("fill", "#021028");
+
+// ---------- Tooltip & Detail panel ----------
+const tooltip = d3.select("#tooltip");
+const detailName = d3.select("#detail-name");
+const detailNumber = d3.select("#detail-number");
+const detailMass = d3.select("#detail-mass");
+const detailCategory = d3.select("#detail-category");
+const detailBlock = d3.select("#detail-block");
+const detailGroup = d3.select("#detail-group");
+const detailPeriod = d3.select("#detail-period");
+const detailDesc = d3.select("#detail-desc");
+const selectedSymbol = d3.select("#selected-symbol");
+
+function handleMouseOver(event,d){
+  tooltip.style("display","block").html(`
+    <div style="font-weight:800; font-size:15px">${d.name} <span style="color:var(--muted); font-weight:600">(${d.symbol})</span></div>
+    <div style="font-size:12px; color:var(--muted)">#${d.number} · ${d.category} · ${d.block}-block</div>
+    <div style="margin-top:6px; font-size:13px">Mass: ${d.atomic_mass}</div>
+  `);
+  d3.select(this.parentNode).raise();
+}
+
+function handleMouseMove(event){
+  const [mx,my] = d3.pointer(event, document.body);
+  tooltip.style("left", (mx+12) + "px").style("top", (my+12) + "px");
+}
+
+function handleMouseOut(){
+  tooltip.style("display","none");
+}
+
+function handleClick(event,d){
+  showDetail(d);
+  // highlight selected
+  node.selectAll("circle").attr("stroke-width", 1.2);
+  d3.select(this).attr("stroke-width", 2.4);
+}
+
+// show element details in right panel
+function showDetail(d){
+  detailName.text(`${d.name} (${d.symbol})`);
+  detailNumber.text(`#${d.number}`);
+  detailMass.text(d.atomic_mass);
+  detailCategory.text(d.category);
+  detailBlock.text(d.block);
+  detailGroup.text(d.group ? "Group " + d.group : "Group —");
+  detailPeriod.text("Period " + d.period);
+  detailDesc.text(`Atomic number ${d.number}. ${d.name} (${d.symbol}). Category: ${d.category}. Block: ${d.block}.`);
+  selectedSymbol.text(d.symbol);
+}
+
+// drag helpers
+function drag(sim){
+  function dragstarted(event,d){
+    if(!event.active) sim.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+  function dragged(event,d){
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+  function dragended(event,d){
+    if(!event.active) sim.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+  return d3.drag()
+    .on("start", dragstarted)
+    .on("drag", dragged)
+    .on("end", dragended);
+}
+
+// tick update
+function ticked(){
+  node.attr("transform", d => `translate(${d.x},${d.y})`);
+}
+
+// ---------- Layouts ----------
+
+// helper to compute table positions (period × group)
+function computeTablePositions(w=svg.node().clientWidth, h=svg.node().clientHeight) {
+  // groups 1-18 mapped to x across width with padding
+  const pad = 40;
+  const usableW = Math.max(w - pad*2, 200);
+  const usableH = Math.max(h - pad*2, 200);
+  const cols = 18;
+  const rows = 7; // periods
+  const colW = usableW / (cols - 1);
+  const rowH = usableH / (rows - 1);
+  // some f-block elements have group null; we place f-block in separate row below - we'll compute their x based on lanth/act indices
+  const fStartY = pad + usableH + 60; // place lanth/act below
+
+  // map group positions for groups with null we will place specially
+  elements.forEach(d => {
+    if (d.group) {
+      d.x0 = pad + (d.group - 1) * colW;
+      d.y0 = pad + (d.period - 1) * rowH;
+    } else {
+      // f-block: place based on index within lanth/act series
+      if (d.category === 'lanthanoid') {
+        const lanth = elements.filter(e => e.category === 'lanthanoid' && e.period===6);
+        const idx = lanth.findIndex(e => e.number === d.number);
+        d.x0 = pad + (2 + idx) * (colW * 0.9); // compact
+        d.y0 = fStartY;
+      } else if (d.category === 'actinoid') {
+        const act = elements.filter(e => e.category === 'actinoid' && e.period===7);
+        const idx = act.findIndex(e => e.number === d.number);
+        d.x0 = pad + (2 + idx) * (colW * 0.9);
+        d.y0 = fStartY + 48;
+      } else {
+        // fallback to center
+        d.x0 = w/2 + (Math.random()-0.5)*60;
+        d.y0 = h/2 + (Math.random()-0.5)*60;
+      }
+    }
+  });
+}
+
+// compute category centers
+function computeCategoryCenters(w=svg.node().clientWidth, h=svg.node().clientHeight){
+  // compute unique categories and place centers in circular layout
+  const cats = Array.from(new Set(elements.map(d=>d.category)));
+  const centerX = w/2, centerY = h/2;
+  const radius = Math.min(w,h) / 3.2;
+  const centers = {};
+  cats.forEach((c,i) => {
+    const angle = (i / cats.length) * 2 * Math.PI;
+    centers[c] = { x: centerX + Math.cos(angle) * radius, y: centerY + Math.sin(angle) * radius };
+  });
+  elements.forEach(d => {
+    const c = centers[d.category];
+    d.x0 = c.x + (Math.random()-0.5)*40;
+    d.y0 = c.y + (Math.random()-0.5)*40;
+  });
+}
+
+// compute block centers (s, p, d, f)
+function computeBlockCenters(w=svg.node().clientWidth, h=svg.node().clientHeight){
+  const blocks = ["s","p","d","f"];
+  const centerX = w/2, centerY = h/2;
+  const radius = Math.min(w,h) / 3.8;
+  const centers = {};
+  blocks.forEach((b,i) => {
+    const angle = (i / blocks.length) * 2 * Math.PI;
+    centers[b] = { x: centerX + Math.cos(angle) * radius, y: centerY + Math.sin(angle) * radius };
+  });
+  elements.forEach(d => {
+    const c = centers[d.block] || centers["p"];
+    d.x0 = c.x + (Math.random()-0.5)*50;
+    d.y0 = c.y + (Math.random()-0.5)*50;
+  });
+}
+
+// transition nodes to x0,y0 positions with a force that attracts to those positions
+function applyLayout(layoutName){
+  const w = svg.node().clientWidth, h = svg.node().clientHeight;
+  if (layoutName === "table") {
+    computeTablePositions(w,h);
+  } else if (layoutName === "category") {
+    computeCategoryCenters(w,h);
+  } else if (layoutName === "block") {
+    computeBlockCenters(w,h);
+  } else {
+    // force default: clear x0/y0 so center force attracts to center
+    elements.forEach(d => { d.x0 = undefined; d.y0 = undefined;});
+  }
+
+  // set x and y force targets to x0/y0 (or center if undefined)
+  simulation.force("x", d3.forceX(d => d.x0 !== undefined ? d.x0 : w/2).strength(0.12));
+  simulation.force("y", d3.forceY(d => d.y0 !== undefined ? d.y0 : h/2).strength(0.12));
+
+  simulation.alpha(0.9).restart();
+}
+
+// ---------- UI Controls ----------
+const playPauseBtn = d3.select("#play-pause");
+const resetBtn = d3.select("#reset");
+const speedInput = d3.select("#speed");
+const layoutSelect = d3.select("#layout-select");
+const searchInput = d3.select("#search");
+const legendDiv = d3.select("#legend");
+const countSpan = d3.select("#count");
+
+countSpan.text(elements.length);
+
+// build legend
+categories.forEach(cat => {
+  const item = legendDiv.append("div").attr("class","legend-item").node();
+  const sw = document.createElement("div");
+  sw.className = "legend-swatch";
+  sw.style.background = categoryColors[cat];
+  item.appendChild(sw);
+  const lab = document.createElement("div");
+  lab.style.fontSize = "12px";
+  lab.style.color = "var(--text)";
+  lab.style.marginLeft = "6px";
+  lab.textContent = cat;
+  item.appendChild(lab);
+  legendDiv.node().appendChild(item);
+});
+
+// play/pause toggles simulation
+let running = true;
+playPauseBtn.on("click", () => {
+  running = !running;
+  if (running) {
+    simulation.alphaTarget(0.2);
+    playPauseBtn.text("Pause").classed("primary", true);
+  } else {
+    simulation.alphaTarget(0);
+    playPauseBtn.text("Play").classed("primary", false);
+  }
+});
+
+// reset positions
+resetBtn.on("click", () => {
+  elements.forEach(d => { d.x = Math.random() * svg.node().clientWidth; d.y = Math.random() * svg.node().clientHeight; d.fx = null; d.fy = null; });
+  simulation.alpha(1).restart();
+});
+
+// speed control adjusts velocityDecay and forces strengths
+speedInput.on("input", function(){
+  const val = +this.value;
+  // map speed to velocityDecay and charge
+  simulation.velocityDecay(0.2 / val);
+  simulation.force("charge").strength(-18 * val);
+  simulation.alpha(0.9).restart();
+});
+
+// layout select
+layoutSelect.on("change", function(){
+  const val = this.value;
+  applyLayout(val === "force" ? "force" : val);
+});
+
+// reset zoom / focus
+d3.select("#focus-all").on("click", () => {
+  // remove fx/fy and restart
+  elements.forEach(d => { d.fx = null; d.fy = null; });
+  simulation.alpha(0.9).restart();
+});
+
+// auto layout button - apply table layout
+d3.select("#auto-layout").on("click", () => applyLayout("table"));
+
+// search
+searchInput.on("input", function(){
+  const q = this.value.trim().toLowerCase();
+  if(!q) {
+    node.classed("highlight", false).selectAll("circle").attr("opacity",1);
+    return;
+  }
+  node.classed("highlight", d => (d.name.toLowerCase().includes(q) || d.symbol.toLowerCase().includes(q)));
+  node.selectAll("circle").attr("opacity", d => (d.name.toLowerCase().includes(q) || d.symbol.toLowerCase().includes(q)) ? 1 : 0.15);
+});
+
+// ---------- Tick style update (optional: animate subtle pulsing) ----------
+let pulsePhase = 0;
+function tickVisuals() {
+  pulsePhase += 0.03;
+  node.selectAll("circle").attr("transform", d => {
+    // slight pulse by category
+    const p = Math.sin((d.number * 0.1) + pulsePhase) * 0.02 + 1;
+    return `scale(${p})`;
+  });
+}
+d3.interval(tickVisuals, 80);
+
+// ---------- Interaction helpers ----------
+function updatePositionsInstant() {
+  node.attr("transform", d => `translate(${d.x},${d.y})`);
+}
+
+// initial layout: force
+applyLayout("force");
+
+// ---------- Draw tick updating separately to ensure labels follow circles ----------
+function ticked() {
+  node.attr("transform", d => `translate(${d.x},${d.y})`);
+}
+
+// ---------- Misc: export / reset / keyboard ----------
+d3.select("#reset").on("click", () => {
+  applyLayout("force");
+  simulation.alpha(1).restart();
+});
+
+// ---------- Accessibility: focus first element on load ----------
+showDetail(elements[0]);
+
+// ensure svg size updates the simulation center forces on window resize
+window.addEventListener("resize", () => {
+  const w = svg.node().clientWidth, h = svg.node().clientHeight;
+  simulation.force("center", d3.forceCenter(w/2, h/2));
+  // reapply current layout to recompute targets
+  applyLayout(layoutSelect.node().value === "force" ? "force" : layoutSelect.node().value);
+});
+
+// ---------- END ----------
+</script>
+</body>
+</html>
