@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Question Paper — Skeleton System (Class 5)</title>
+<style>
+  /* Page / print setup */
+  :root{
+    --bg:#f6f7fb;
+    --paper:#fff;
+    --accent:#0b63d6;
+    --muted:#556476;
+    --border: #e3e7ee;
+  }
+  html,body{height:100%; margin:0; font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:#12202b}
+  .page {
+    width:210mm; /* A4 */
+    min-height:297mm;
+    margin:20px auto;
+    padding:20mm;
+    background:var(--paper);
+    box-shadow:0 6px 24px rgba(10,20,40,0.12);
+    box-sizing:border-box;
+    border:1px solid var(--border);
+  }
+
+  header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    margin-bottom:10px;
+  }
+  .school {
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .school h1 { margin:0; font-size:20px; letter-spacing:0.4px; color:var(--accent) }
+  .meta {
+    text-align:right;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .paper-code {
+    background:linear-gradient(90deg,#e6f0ff,#f7fbff);
+    color:var(--accent);
+    padding:6px 10px;
+    border-radius:6px;
+    font-weight:700;
+    display:inline-block;
+    border:1px solid rgba(11,99,214,0.12);
+  }
+
+  hr.sep { border:none; border-top:1px dashed var(--border); margin:12px 0 18px; }
+
+  .instructions {
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.45;
+    margin-bottom:12px;
+  }
+
+  .sections { margin-top:8px; }
+  .section { margin-bottom:18px; }
+  .section h3 { margin:0 0 8px 0; font-size:15px; color:var(--accent); }
+  ol.questions { padding-left:18px; margin:0; counter-reset:q; }
+  ol.questions > li { margin-bottom:10px; }
+  .qtext { display:block; font-size:15px; margin-bottom:6px }
+  .marks { font-weight:700; color:var(--muted); font-size:13px; margin-left:6px }
+
+  /* MCQ layout */
+  .mcq-options { display:flex; flex-direction:column; gap:6px; margin-left:12px; }
+  .option { display:inline-block; padding:6px 8px; border-radius:6px; background:#fbfcff; border:1px solid var(--border); font-size:14px; width:fit-content; }
+
+  /* answer lines */
+  .answer-space { display:block; height:46px; border:1px dashed var(--border); border-radius:6px; padding:8px; background:#fbfdff; color:var(--muted); }
+  .answer-line.short { height:34px; }
+  .draw-area { height:120px; border:2px dashed #e6eefc; border-radius:6px; background:linear-gradient(180deg,#fff,#fbfdff); display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:13px }
+
+  /* footer */
+  footer { display:flex; justify-content:space-between; margin-top:18px; font-size:13px; color:var(--muted) }
+  .sign { display:flex; gap:12px; align-items:center }
+  .sign div { border-top:1px solid var(--border); padding-top:6px; width:180px; text-align:center; color:var(--muted); font-size:13px }
+
+  /* answer key (toggleable) */
+  #answer-key { margin-top:20px; padding:12px; border-radius:8px; background:linear-gradient(90deg,#fcfdff,#f8fbff); border:1px solid rgba(11,99,214,0.06); display:none; }
+  #answer-key.show { display:block; }
+
+  /* controls (not printed) */
+  .controls { display:flex; gap:8px; margin:12px auto; width:210mm; justify-content:flex-end; box-sizing:border-box; }
+  .controls button { padding:8px 10px; border-radius:8px; border:1px solid var(--border); cursor:pointer; background:#fff; }
+  .controls .primary { background:var(--accent); color:#fff; border:none }
+
+  /* print rules */
+  @media print {
+    body { background: none; }
+    .controls { display:none !important; }
+    .page { box-shadow:none; margin:0; border:none; width:auto; min-height:auto; padding:15mm; }
+    #answer-key { page-break-before:always; } /* if shown, start on new page */
+  }
+
+  /* responsive */
+  @media (max-width:900px) {
+    .page { width:100%; margin:8px; padding:12px; }
+    .controls { width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="controls" aria-hidden="false">
+  <button id="toggle-answers" class="primary">Show Answer Key</button>
+  <button id="print" title="Print / Save as PDF">Print (PDF)</button>
+  <button id="download" title="Download as plain text">Download .txt</button>
+</div>
+
+<main class="page" id="paper" role="document" aria-label="Question paper">
+  <header>
+    <div class="school">
+      <h1>University of Education — Examination Branch</h1>
+      <div style="font-size:13px; color:var(--muted)">Model Question Paper — Class V</div>
+      <div style="font-size:13px; color:var(--muted)">Chapter: Skeleton System (NCERT)</div>
+    </div>
+
+    <div class="meta">
+      <div class="paper-code">Paper Code: BIO-CL5-SS-01</div>
+      <div style="margin-top:10px">Time Allowed: 2 hours</div>
+      <div style="margin-top:4px; font-weight:700">Maximum Marks: 50</div>
+    </div>
+  </header>
+
+  <hr class="sep" />
+
+  <div style="display:flex; gap:16px; margin-bottom:10px; align-items:center;">
+    <div style="flex:1">
+      <div style="font-size:13px; color:var(--muted)">Name: ____________________________</div>
+      <div style="font-size:13px; color:var(--muted); margin-top:6px">Class & Section: ____________ Roll No: ________</div>
+    </div>
+    <div style="width:220px; text-align:right">
+      <div style="font-size:13px; color:var(--muted)">Date: __/__/____</div>
+      <div style="font-size:13px; color:var(--muted); margin-top:6px">Signature (Invigilator): ___________</div>
+    </div>
+  </div>
+
+  <div class="instructions">
+    Read the instructions carefully:
+    <ol>
+      <li>This paper contains three sections: A, B and C. All questions are compulsory.</li>
+      <li>Write answers neatly in the space provided. Diagrams should be drawn where required.</li>
+      <li>Marks for each question are given in brackets.</li>
+      <li>Total marks: 50. Time allowed: 2 hours.</li>
+    </ol>
+  </div>
+
+  <div class="sections">
+
+    <!-- SECTION A: OBJECTIVE (MCQ & Very Short Answer) -->
+    <section class="section" id="section-A">
+      <h3>Section A — Objective (10 marks)</h3>
+      <ol class="questions" type="1">
+        <li>
+          <span class="qtext">Choose the correct option: (Each question 1 mark)</span>
+          <div class="mcq-options">
+            <div style="font-weight:700; margin-bottom:6px">1. The skeleton system is mainly made of — <span class="marks">(1)</span></div>
+            <div class="option">A. Muscles & tissues &nbsp;&nbsp; B. Bones &nbsp;&nbsp; C. Skin &nbsp;&nbsp; D. Blood</div>
+          </div>
+          <div class="answer-space short" aria-hidden="true">Answer: _____________________</div>
+        </li>
+
+        <li>
+          <div class="qtext">2. The bone that protects the brain is called — <span class="marks">(1)</span></div>
+          <div class="mcq-options">
+            <div class="option">A. Femur &nbsp;&nbsp; B. Skull &nbsp;&nbsp; C. Ribcage &nbsp;&nbsp; D. Spine</div>
+          </div>
+          <div class="answer-space short" aria-hidden="true">Answer: _____________________</div>
+        </li>
+
+        <li>
+          <div class="qtext">3. Which joint allows movement in many directions? <span class="marks">(1)</span></div>
+          <div class="mcq-options">
+            <div class="option">A. Hinge joint &nbsp;&nbsp; B. Ball & socket joint &nbsp;&nbsp; C. Fixed joint &nbsp;&nbsp; D. Pivot joint</div>
+          </div>
+          <div class="answer-space short" aria-hidden="true">Answer: _____________________</div>
+        </li>
+
+        <li>
+          <div class="qtext">4. The backbone is also called — <span class="marks">(1)</span></div>
+          <div class="mcq-options">
+            <div class="option">A. Skull &nbsp;&nbsp; B. Spine/Vertebral column &nbsp;&nbsp; C. Rib &nbsp;&nbsp; D. Pelvis</div>
+          </div>
+          <div class="answer-space short" aria-hidden="true">Answer: _____________________</div>
+        </li>
+
+        <li>
+          <div class="qtext">5. Which of these is NOT a function of the skeleton? <span class="marks">(1)</span></div>
+          <div class="mcq-options">
+            <div class="option">A. Protect organs &nbsp;&nbsp; B. Help in movement &nbsp;&nbsp; C. Make blood &nbsp;&nbsp; D. Produce hormones</div>
+          </div>
+          <div class="answer-space short" aria-hidden="true">Answer: _____________________</div>
+        </li>
+
+        <li>
+          <div class="qtext">6. Name the largest bone in human body. <span class="marks">(1)</span></div>
+          <div class="answer-space short" aria-hidden="true">Answer: _____________________</div>
+        </li>
+
+        <li>
+          <div class="qtext">7. True or False: Joints are places where two bones meet. <span class="marks">(1)</span></div>
+          <div class="answer-space short" aria-hidden="true">Answer: _____________________</div>
+        </li>
+
+        <li>
+          <div class="qtext">8. Fill in the blank: Bones are joined to bones by ______. <span class="marks">(1)</span></div>
+          <div class="answer-space short" aria-hidden="true">Answer: _____________________</div>
+        </li>
+
+        <li>
+          <div class="qtext">9. Name one bone that protects the heart and lungs. <span class="marks">(1)</span></div>
+          <div class="answer-space short" aria-hidden="true">Answer: _____________________</div>
+        </li>
+
+        <li>
+          <div class="qtext">10. Which part of the skeleton helps you to stand upright? <span class="marks">(1)</span></div>
+          <div class="answer-space short" aria-hidden="true">Answer: _____________________</div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- SECTION B: SHORT ANSWER -->
+    <section class="section" id="section-B">
+      <h3>Section B — Short Answer (16 marks)</h3>
+      <ol class="questions" start="11" type="1">
+        <li>
+          <div class="qtext">11. What are joints? Give two examples. <span class="marks">(2)</span></div>
+          <div class="answer-space" aria-hidden="true"></div>
+        </li>
+
+        <li>
+          <div class="qtext">12. What is the function of the skull? <span class="marks">(2)</span></div>
+          <div class="answer-space" aria-hidden="true"></div>
+        </li>
+
+        <li>
+          <div class="qtext">13. Differentiate between movable and immovable joints (one line each). <span class="marks">(2)</span></div>
+          <div class="answer-space" aria-hidden="true"></div>
+        </li>
+
+        <li>
+          <div class="qtext">14. Why are bones hard? Mention one substance present in bones. <span class="marks">(2)</span></div>
+          <div class="answer-space" aria-hidden="true"></div>
+        </li>
+
+        <li>
+          <div class="qtext">15. Name two ways to keep our bones healthy. <span class="marks">(2)</span></div>
+          <div class="answer-space" aria-hidden="true"></div>
+        </li>
+
+        <li>
+          <div class="qtext">16. Write the names of any two bones found in the arm and leg. <span class="marks">(2)</span></div>
+          <div class="answer-space" aria-hidden="true"></div>
+        </li>
+
+        <li>
+          <div class="qtext">17. What is the ribcage? State its role in our body. <span class="marks">(2)</span></div>
+          <div class="answer-space" aria-hidden="true"></div>
+        </li>
+
+        <li>
+          <div class="qtext">18. How does the skeleton help in movement? <span class="marks">(2)</span></div>
+          <div class="answer-space" aria-hidden="true"></div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- SECTION C: LONG ANSWER / DIAGRAM -->
+    <section class="section" id="section-C">
+      <h3>Section C — Long Answer / Diagram (24 marks)</h3>
+      <ol class="questions" start="19" type="1">
+        <li>
+          <div class="qtext">19. Explain the main functions of the human skeleton. Give at least three functions. <span class="marks">(6)</span></div>
+          <div class="answer-space" style="height:90px" aria-hidden="true"></div>
+        </li>
+
+        <li>
+          <div class="qtext">20. Draw and label a simple diagram of the human skeleton showing: skull, spine, ribcage, pelvis, femur. <span class="marks">(6)</span></div>
+          <div class="draw-area" aria-hidden="true">Space for drawing (use pencil)</div>
+        </li>
+
+        <li>
+          <div class="qtext">21. Describe the difference between axial skeleton and appendicular skeleton with two examples each. <span class="marks">(6)</span></div>
+          <div class="answer-space" style="height:90px" aria-hidden="true"></div>
+        </li>
+
+        <li>
+          <div class="qtext">22. Explain how to take care of your bones and why exercise is important for a healthy skeleton. <span class="marks">(6)</span></div>
+          <div class="answer-space" style="height:90px" aria-hidden="true"></div>
+        </li>
+      </ol>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="sign">
+      <div>Examiner's Signature</div>
+      <div>Head of Department</div>
+    </div>
+    <div style="text-align:right; color:var(--muted);">Prepared as per NCERT Class 5 — Skeleton System</div>
+  </footer>
+
+  <!-- Answer Key (toggleable) -->
+  <section id="answer-key" aria-hidden="true">
+    <h3 style="margin-top:0; color:var(--accent)">Answer Key & Marking Scheme</h3>
+
+    <ol style="margin-left:14px; color:#1a2b3a">
+      <li>
+        <strong>Section A (objective) — 10 marks</strong>
+        <ol>
+          <li>1. B (Bones)</li>
+          <li>2. B (Skull)</li>
+          <li>3. B (Ball & socket joint)</li>
+          <li>4. B (Spine / Vertebral column)</li>
+          <li>5. D (Produce hormones) — NOT a primary function</li>
+          <li>6. Femur (thigh bone)</li>
+          <li>7. True</li>
+          <li>8. Ligaments</li>
+          <li>9. Rib (or Ribcage)</li>
+          <li>10. Spine / backbone</li>
+        </ol>
+      </li>
+
+      <li style="margin-top:8px">
+        <strong>Section B (short answers) — sample points (2 marks each)</strong>
+        <ol>
+          <li>11. Joints are places where two or more bones meet. Examples: knee joint, elbow joint.</li>
+          <li>12. Skull protects the brain and forms the structure of the head.</li>
+          <li>13. Movable joints allow movement (e.g., knee), immovable joints do not allow movement (e.g., skull bones fused). (1 line each)</li>
+          <li>14. Bones are hard because they contain minerals like calcium and phosphorus.</li>
+          <li>15. Keep bones healthy: eat calcium-rich food (milk), do regular exercise, get sunlight (vitamin D).</li>
+          <li>16. Arm bones: Humerus, Radius, Ulna. Leg bones: Femur, Tibia, Fibula.</li>
+          <li>17. Ribcage is the set of ribs around chest protecting heart and lungs.</li>
+          <li>18. Skeleton provides attachment for muscles; muscles pull on bones to create movement.</li>
+        </ol>
+      </li>
+
+      <li style="margin-top:8px">
+        <strong>Section C (long answers) — sample marking</strong>
+        <ol>
+          <li>19. Functions: support (keeps body upright), protection (protects organs), movement (works with muscles), formation of blood cells (in marrow). Award marks for three clear points + brief explanation. (6)</li>
+          <li>20. Diagram: correct labelled diagram (skull, spine, ribcage, pelvis, femur) — clarity & labels. (6)</li>
+          <li>21. Axial: skull, spine, ribcage (supports central axis); Appendicular: limbs and girdles (helps in movement) — give two examples each. (6)</li>
+          <li>22. Care: balanced diet (calcium, protein), exercise (walking, running), sunlight (vitamin D), avoid injuries — explain why exercise strengthens bones. (6)</li>
+        </ol>
+      </li>
+    </ol>
+  </section>
+
+</main>
+
+<script>
+  // Controls: toggle answers, print, download plain text
+  const toggleBtn = document.getElementById('toggle-answers');
+  const answerKey = document.getElementById('answer-key');
+  const printBtn = document.getElementById('print');
+  const downloadBtn = document.getElementById('download');
+
+  let answersShown = false;
+  toggleBtn.addEventListener('click', () => {
+    answersShown = !answersShown;
+    if (answersShown) {
+      answerKey.classList.add('show');
+      answerKey.setAttribute('aria-hidden','false');
+      toggleBtn.textContent = 'Hide Answer Key';
+    } else {
+      answerKey.classList.remove('show');
+      answerKey.setAttribute('aria-hidden','true');
+      toggleBtn.textContent = 'Show Answer Key';
+    }
+    // if printed, ensure print CSS prints answer key only if it's visible
+  });
+
+  printBtn.addEventListener('click', () => {
+    window.print();
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    // generate a simple plain-text version of the paper (without diagrams)
+    const paper = document.getElementById('paper').cloneNode(true);
+    // remove answer key (we will not include by default)
+    const ak = paper.querySelector('#answer-key');
+    if(ak) ak.remove();
+
+    // remove interactive/controls like drawing area text decorations
+    const strips = paper.querySelectorAll('.draw-area');
+    strips.forEach(s=> {
+      s.textContent = '[Space for drawing — see printed paper]';
+    });
+
+    // extract text
+    function textOf(node){
+      if(node.nodeType === Node.TEXT_NODE) return node.textContent.trim();
+      if(node.nodeType !== Node.ELEMENT_NODE) return '';
+      let txt = '';
+      node.childNodes.forEach(c => {
+        txt += textOf(c) + (c.nodeName === 'P' || c.nodeName === 'DIV' ? '\n' : ' ');
+      });
+      return txt;
+    }
+    const txt = textOf(paper);
+
+    const blob = new Blob([txt], {type: 'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Skeleton_System_Class5_question_paper.txt';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=> { URL.revokeObjectURL(url); a.remove(); }, 500);
+  });
+
+  // hide answer-key when printing unless currently visible
+  window.onbeforeprint = function() {
+    // nothing: answerKey visibility determines printing
+  };
+
+  // small accessibility helper: focus first input-like element (Name area)
+  window.addEventListener('load', () => {
+    // we don't have actual inputs; skip
+  });
+
+</script>
+</body>
+</html>
