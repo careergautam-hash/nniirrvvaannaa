@@ -375,3 +375,199 @@
   </script>
 </body>
 </html>
+<li><div class="q-text">25. 'कवि' शब्द का सही पर्यायवाची क्या है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> लेखक</div>
+    <div class="option"><span class="label">B.</span> काव्यकार</div>
+    <div class="option"><span class="label">C.</span> चित्रकार</div>
+    <div class="option"><span class="label">D.</span> संपादक</div>
+  </div>
+</li>
+<li><div class="q-text">26. 'अलंकार' किसका गुण है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> कविता</div>
+    <div class="option"><span class="label">B.</span> कहानी</div>
+    <div class="option"><span class="label">C.</span> गद्य</div>
+    <div class="option"><span class="label">D.</span> नाटक</div>
+  </div>
+</li>
+<li><div class="q-text">27. 'सर्वनाम' शब्द का उदाहरण क्या है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> वह</div>
+    <div class="option"><span class="label">B.</span> सुंदर</div>
+    <div class="option"><span class="label">C.</span> खाना</div>
+    <div class="option"><span class="label">D.</span> किताब</div>
+  </div>
+</li>
+<li><div class="q-text">28. 'काव्य' में छंद का महत्व क्या है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> लय और ताल</div>
+    <div class="option"><span class="label">B.</span> अर्थ</div>
+    <div class="option"><span class="label">C.</span> रंग</div>
+    <div class="option"><span class="label">D.</span> चित्र</div>
+  </div>
+</li>
+<li><div class="q-text">29. 'रूपक' किस प्रकार का अलंकार है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> उपमा</div>
+    <div class="option"><span class="label">B.</span> रूपक</div>
+    <div class="option"><span class="label">C.</span> अनुप्रास</div>
+    <div class="option"><span class="label">D.</span> यमक</div>
+  </div>
+</li>
+<li><div class="q-text">30. 'जलचर' में 'चर' का अर्थ है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> रहने वाला</div>
+    <div class="option"><span class="label">B.</span> खाने वाला</div>
+    <div class="option"><span class="label">C.</span> पीने वाला</div>
+    <div class="option"><span class="label">D.</span> चलने वाला</div>
+  </div>
+</li>
+<li><div class="q-text">31. 'द्वंद्व समास' का उदाहरण क्या है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> माता-पिता</div>
+    <div class="option"><span class="label">B.</span> जलचर</div>
+    <div class="option"><span class="label">C.</span> ग्रामज</div>
+    <div class="option"><span class="label">D.</span> सुंदर</div>
+  </div>
+</li>
+<li><div class="q-text">32. 'निर्मल वर्मा' किस विधा के लेखक थे?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> उपन्यास</div>
+    <div class="option"><span class="label">B.</span> नाटक</div>
+    <div class="option"><span class="label">C.</span> कविता</div>
+    <div class="option"><span class="label">D.</span> लेख</div>
+  </div>
+</li>
+<li><div class="q-text">33. 'धन्यवाद' का विलोम क्या है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> माफ़ कीजिए</div>
+    <div class="option"><span class="label">B.</span> धन्यवाद नहीं</div>
+    <div class="option"><span class="label">C.</span> क्षमा</div>
+    <div class="option"><span class="label">D.</span> स्वागत</div>
+  </div>
+</li>
+<li><div class="q-text">34. 'कवि' किसे कहते हैं?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> कविता लिखने वाला</div>
+    <div class="option"><span class="label">B.</span> चित्र बनाने वाला</div>
+    <div class="option"><span class="label">C.</span> कहानी सुनाने वाला</div>
+    <div class="option"><span class="label">D.</span> गीत गाने वाला</div>
+  </div>
+</li>
+<li><div class="q-text">35. 'मधु' शब्द का पर्यायवाची क्या है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> शहद</div>
+    <div class="option"><span class="label">B.</span> दूध</div>
+    <div class="option"><span class="label">C.</span> जल</div>
+    <div class="option"><span class="label">D.</span> फल</div>
+  </div>
+</li>
+<li><div class="q-text">36. 'विशेषण' किसका गुण दर्शाता है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> संज्ञा</div>
+    <div class="option"><span class="label">B.</span> क्रिया</div>
+    <div class="option"><span class="label">C.</span> सर्वनाम</div>
+    <div class="option"><span class="label">D.</span> काल</div>
+  </div>
+</li>
+<li><div class="q-text">37. 'संधि' के कितने प्रकार होते हैं?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> तीन</div>
+    <div class="option"><span class="label">B.</span> चार</div>
+    <div class="option"><span class="label">C.</span> पाँच</div>
+    <div class="option"><span class="label">D.</span> दो</div>
+  </div>
+</li>
+<li><div class="q-text">38. 'कहानी' का प्रमुख उद्देश्य क्या है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> मनोरंजन</div>
+    <div class="option"><span class="label">B.</span> शिक्षा</div>
+    <div class="option"><span class="label">C.</span> जानकारी</div>
+    <div class="option"><span class="label">D.</span> सभी</div>
+  </div>
+</li>
+<li><div class="q-text">39. 'पाठक' किसे कहते हैं?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> पढ़ने वाला</div>
+    <div class="option"><span class="label">B.</span> लिखने वाला</div>
+    <div class="option"><span class="label">C.</span> सुनने वाला</div>
+    <div class="option"><span class="label">D.</span> बोलने वाला</div>
+  </div>
+</li>
+<li><div class="q-text">40. 'श्रृंगार' रस का अर्थ क्या है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> प्रेम</div>
+    <div class="option"><span class="label">B.</span> हास्य</div>
+    <div class="option"><span class="label">C.</span> करुण</div>
+    <div class="option"><span class="label">D.</span> वीर</div>
+  </div>
+</li>
+<li><div class="q-text">41. 'अलंकार' के कितने प्रकार हैं?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> दो</div>
+    <div class="option"><span class="label">B.</span> तीन</div>
+    <div class="option"><span class="label">C.</span> चार</div>
+    <div class="option"><span class="label">D.</span> पाँच</div>
+  </div>
+</li>
+<li><div class="q-text">42. 'साहित्य' का सही अर्थ क्या है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> लिखित शब्द</div>
+    <div class="option"><span class="label">B.</span> चित्र</div>
+    <div class="option"><span class="label">C.</span> संगीत</div>
+    <div class="option"><span class="label">D.</span> विज्ञान</div>
+  </div>
+</li>
+<li><div class="q-text">43. 'प्रेमचंद' किस विधा के लेखक हैं?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> कहानी</div>
+    <div class="option"><span class="label">B.</span> कविता</div>
+    <div class="option"><span class="label">C.</span> नाटक</div>
+    <div class="option"><span class="label">D.</span> उपन्यास</div>
+  </div>
+</li>
+<li><div class="q-text">44. 'छायावाद' किस विधा से जुड़ा है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> कविता</div>
+    <div class="option"><span class="label">B.</span> कहानी</div>
+    <div class="option"><span class="label">C.</span> नाटक</div>
+    <div class="option"><span class="label">D.</span> गद्य</div>
+  </div>
+</li>
+<li><div class="q-text">45. 'राष्ट्रकवि' किसे कहा जाता है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> रामधारी सिंह 'दिनकर'</div>
+    <div class="option"><span class="label">B.</span> निराला</div>
+    <div class="option"><span class="label">C.</span> महादेवी वर्मा</div>
+    <div class="option"><span class="label">D.</span> माखनलाल चतुर्वेदी</div>
+  </div>
+</li>
+<li><div class="q-text">46. 'शब्द' का सही अर्थ क्या है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> अर्थ</div>
+    <div class="option"><span class="label">B.</span> ध्वनि</div>
+    <div class="option"><span class="label">C.</span> चित्र</div>
+    <div class="option"><span class="label">D.</span> रंग</div>
+  </div>
+</li>
+<li><div class="q-text">47. 'नाटक' किसके लिए लिखा जाता है?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> मंचन</div>
+    <div class="option"><span class="label">B.</span> पढ़ने</div>
+    <div class="option"><span class="label">C.</span> सुनने</div>
+    <div class="option"><span class="label">D.</span> गाने</div>
+  </div>
+</li>
+<li><div class="q-text">48. 'वाक्य' के कितने प्रकार होते हैं?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> तीन</div>
+    <div class="option"><span class="label">B.</span> दो</div>
+    <div class="option"><span class="label">C.</span> चार</div>
+    <div class="option"><span class="label">D.</span> पाँच</div>
+  </div>
+</li>
+<li><div class="q-text">49. 'अर्थ' किसे कहते हैं?</div>
+  <div class="options">
+    <div class="option"><span class="label">A.</span> मतलब</div>
+    <div class="option"><
