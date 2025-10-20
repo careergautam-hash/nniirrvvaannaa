@@ -311,7 +311,7 @@
           </div>
         </li>
         <!-- ... Continue in this style up to 100 ... -->
-        <li><div class="q-text">98. 'साहित्य समीक्षा' का अर्थ क्या है?</div>
+        <li><div class="q-text">22. 'साहित्य समीक्षा' का अर्थ क्या है?</div>
           <div class="options">
             <div class="option"><span class="label">A.</span> कृति का मूल्यांकन</div>
             <div class="option"><span class="label">B.</span> केवल सारांश</div>
@@ -319,7 +319,7 @@
             <div class="option"><span class="label">D.</span> केवल आलोचना</div>
           </div>
         </li>
-        <li><div class="q-text">99. 'रचनाकार' शब्द किसे दर्शाता है?</div>
+        <li><div class="q-text">23. 'रचनाकार' शब्द किसे दर्शाता है?</div>
           <div class="options">
             <div class="option"><span class="label">A.</span> लेखक/कवि</div>
             <div class="option"><span class="label">B.</span> पाठक</div>
@@ -327,7 +327,7 @@
             <div class="option"><span class="label">D.</span> अनुवादक</div>
           </div>
         </li>
-        <li><div class="q-text">100. 'निबंध' लिखते समय प्रयुक्त भाषा किस प्रकार की होनी चाहिए?</div>
+        <li><div class="q-text">24. 'निबंध' लिखते समय प्रयुक्त भाषा किस प्रकार की होनी चाहिए?</div>
           <div class="options">
             <div class="option"><span class="label">A.</span> स्पष्ट और संगठित</div>
             <div class="option"><span class="label">B.</span> जटिल और अस्पष्ट</div>
