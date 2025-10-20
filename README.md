@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
   <meta charset="utf-8">
-  <title>A K CLASSES: CLASS-X — Monthly Test December 2025</title>
+  <title>TARGET MODEL PAPER: CLASS-X — Monthly Test December 2025</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -126,7 +126,7 @@
       <small>monthly test december 2025</small>
     </div>
     <header>
-      <h1>TARGET MODEL PAPER: CLASS-X</h1>
+      <h1>A K CLASSES: CLASS-X</h1>
       <div class="exam-meta">
         <div class="meta-left">Total Marks: <strong>100</strong></div>
         <div class="meta-center">Duration: <strong>3 hours 15 minutes</strong></div>
@@ -375,9 +375,3 @@
   </script>
 </body>
 </html>
-<body>
-  <div style="text-align:center; font-size:2em; font-weight:bold; margin-bottom:12px;">
-    A K CLASSES
-  </div>
-  <!-- The rest of your page content goes here -->
-</body>
