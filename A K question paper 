@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TARGET MODEL PAPER: CLASS-X — Monthly Test December 2025</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4; margin: 20mm; }
+    html, body { height: 100%; margin: 0; padding: 0; background: #f6f6f6; }
+    body {
+      font-family: "Noto Sans Devanagari", sans-serif;
+      color: #111;
+      -webkit-print-color-adjust: exact;
+    }
+    .toolbar {
+      width: 100%;
+      padding: 10px 18mm;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .btn {
+      background: #0b5ed7;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .btn.secondary { background: #6c757d; }
+    .page {
+      position: relative;
+      box-sizing: border-box;
+      width: 210mm;
+      min-height: 297mm;
+      margin: 18mm auto;
+      padding: 18mm 18mm 20mm 18mm;
+      background: white;
+      overflow: visible;
+      box-shadow: 0 0 8px rgba(0,0,0,0.08);
+      page-break-after: always;
+    }
+    .watermark {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 72px;
+      color: #000;
+      opacity: 0.10;
+      pointer-events: none;
+      white-space: nowrap;
+      text-align: center;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+    .watermark small {
+      display: block;
+      font-size: 18px;
+      opacity: 0.9;
+      margin-top: 10px;
+      font-weight: 400;
+    }
+    header { text-align: center; margin-bottom: 8px; }
+    h1 { margin: 0; font-size: 20px; letter-spacing: 1px; font-weight: 700; }
+    .exam-meta { margin-top: 6px; font-size: 12px; display:flex; justify-content:space-between; gap: 8px; }
+    .meta-left, .meta-right { flex: 1; }
+    .meta-center { flex: 1; text-align: center; font-weight: 600; }
+    .info { margin: 10px 0 12px 0; font-size: 12px; line-height: 1.3; }
+    .questions {
+      column-count: 2;
+      column-gap: 22px;
+      -webkit-column-break-inside: avoid;
+      column-break-inside: avoid;
+      font-size: 13px;
+    }
+    ol.questions-list { margin: 0; padding: 0; list-style-position: inside; }
+    ol.questions-list > li {
+      break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+      margin-bottom: 12px;
+      padding-right: 6px;
+    }
+    .q-text { margin-bottom: 6px; }
+    .options { display: flex; gap: 8px; flex-wrap: wrap; }
+    .option { min-width: 48%; box-sizing: border-box; padding: 4px 6px; border-radius: 4px; }
+    .option span.label { font-weight: 700; margin-right: 6px; }
+    footer {
+      margin-top: 16px;
+      font-size: 12px;
+      border-top: 1px dashed #999;
+      padding-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .section-b { flex: 2; font-size: 12px; }
+    .instructions { flex: 1; font-size: 12px; text-align: right; }
+    @media print {
+      .toolbar { display: none; }
+      body { margin: 0; background: #fff; }
+      .page { box-shadow: none; margin: 0; padding: 20mm; }
+      .watermark { opacity: 0.10; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar" aria-hidden="false">
+    <button class="btn" onclick="printA4()">Print (A4)</button>
+    <button class="btn secondary" onclick="downloadPDF()">Download PDF (A4)</button>
+  </div>
+  <div class="page" id="paper">
+    <div class="watermark" aria-hidden="true">
+      A K classes
+      <small>Monthly Test — December 2025</small>
+    </div>
+    <header>
+      <h1>TARGET MODEL PAPER: CLASS-X</h1>
+      <div class="exam-meta" aria-hidden="false">
+        <div class="meta-left">Total Marks: <strong>100</strong></div>
+        <div class="meta-center">Duration: <strong>3 hours 15 minutes</strong></div>
+        <div class="meta-right" style="text-align:right;">Date: <strong>December 2025</strong></div>
+      </div>
+    </header>
+    <div class="info">
+      परीक्षा निर्देश: यह प्रश्नपत्र दो भागों में विभक्त है — भाग A (वस्तुनिष्ठ) और भाग B (विवरणात्मक). भाग A में कुल 100 बहुविकल्पीय प्रश्न हैं; छात्र 50 प्रश्नों के उत्तर ही OMR शीट पर चिन्हित करें। प्रत्येक वस्तुनिष्ठ प्रश्न के अंक = 1. भाग B में 6 प्रश्न हैं; अंक नीचे दर्शित हैं।
+    </div>
+    <section class="questions" aria-label="Multiple choice questions (1-100)">
+      <ol class="questions-list" start="1">
+        <!-- For brevity, only the first 10 and last 3 questions are shown below.
+             Copy this block and duplicate/modify to create real 100 questions for your actual use. -->
+        <li>
+          <div class="q-text">1 'नदी के द्वीप' किस लेखक की कृति है?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> अमरकांत</div>
+            <div class="option"><span class="label">B.</span> रामधारी सिंह 'दिनकर'</div>
+            <div class="option"><span class="label">C.</span> प्रेमचंद</div>
+            <div class="option"><span class="label">D.</span> माखनलाल चतुर्वेदी</div>
+          </div>
+        </li>
+        <li>
+          <div class="q-text">2 शब्द 'अनिष्ट की आशंका होना' का सबसे उपयुक्त अर्थ है:</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> भय लगना</div>
+            <div class="option"><span class="label">B.</span> खुशी होना</div>
+            <div class="option"><span class="label">C.</span> निराशा होना</div>
+            <div class="option"><span class="label">D.</span> उत्साह होना</div>
+          </div>
+        </li>
+        <li>
+          <div class="q-text">3 'संधि-विच्छेद' में निम्नलिखित में से कौन-सा उदाहरण सही है?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> राम + ईश्वर = रामेश्वर</div>
+            <div class="option"><span class="label">B.</span> जल + आन = जलान</div>
+            <div class="option"><span class="label">C.</span> सुन्दर + ई = सुन्दरी</div>
+            <div class="option"><span class="label">D.</span> गुरु + वत्स = गुरुवत्स</div>
+          </div>
+        </li>
+        <li>
+          <div class="q-text">4 निम्न में से किसे 'समास' कहा जाता है?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> चंद्रलोक</div>
+            <div class="option"><span class="label">B.</span> सुंदर</div>
+            <div class="option"><span class="label">C.</span> पढ़ना</div>
+            <div class="option"><span class="label">D.</span> जल</div>
+          </div>
+        </li>
+        <li>
+          <div class="q-text">5 'अमरकांत' का संबंध किस क्षेत्र से है?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> कवि</div>
+            <div class="option"><span class="label">B.</span> उपन्यासकार</div>
+            <div class="option"><span class="label">C.</span> नाटककार</div>
+            <div class="option"><span class="label">D.</span> आलोचक</div>
+          </div>
+        </li>
+        <li>
+          <div class="q-text">6 'विशेषण' का कार्य वाक्य में क्या है?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> क्रिया को दर्शाना</div>
+            <div class="option"><span class="label">B.</span> संज्ञा का विशेषण करना</div>
+            <div class="option"><span class="label">C.</span> सर्वनाम को बदलना</div>
+            <div class="option"><span class="label">D.</span> क्रिया का समय बताना</div>
+          </div>
+        </li>
+        <li>
+          <div class="q-text">7 'मुहर्रम' प्रमुख रूप से किस समुदाय का त्योहार है?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> हिन्दू</div>
+            <div class="option"><span class="label">B.</span> सिख</div>
+            <div class="option"><span class="label">C.</span> मुस्लिम</div>
+            <div class="option"><span class="label">D.</span> ईसाई</div>
+          </div>
+        </li>
+        <li>
+          <div class="q-text">8 'समास' के प्रकारों में 'तत्पुरुष' किस श्रेणी का उदाहरण है?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> संयुक्त समास</div>
+            <div class="option"><span class="label">B.</span> अव्ययीभाव समास</div>
+            <div class="option"><span class="label">C.</span> तत्पुरुष समास</div>
+            <div class="option"><span class="label">D.</span> द्वंद्व समास</div>
+          </div>
+        </li>
+        <li>
+          <div class="q-text">9 'नदी के द्वीप' में प्रस्तुत मुख्य पात्र का मनोविज्ञान किस लेखक की शैली से मेल खाता है?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> प्रेमचंद</div>
+            <div class="option"><span class="label">B.</span> भीष्म साहनी</div>
+            <div class="option"><span class="label">C.</span> अमरकांत</div>
+            <div class="option"><span class="label">D.</span> निर्मल वर्मा</div>
+          </div>
+        </li>
+        <li>
+          <div class="q-text">10 'पिकासो' के संबंध में निम्न कथन में कौन सा सही है?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> वे क्लासिकल इतालवी चित्रकार थे</div>
+            <div class="option"><span class="label">B.</span> उन्हें आधुनिक कला से जोड़ा जाता है</div>
+            <div class="option"><span class="label">C.</span> वे मूर्तिकार नहीं थे</div>
+            <div class="option"><span class="label">D.</span> उन्होंने केवल रंगीन चित्र बनाए</div>
+          </div>
+        </li>
+        <!-- ... repeat/modify for Q11 to Q98 ... -->
+        <li>
+          <div class="q-text">11. 'साहित्य समीक्षा' क्या है?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> किसी कृति पर विचार और मूल्यांकन</div>
+            <div class="option"><span class="label">B.</span> केवल सारांश</div>
+            <div class="option"><span class="label">C.</span> केवल प्रशंसा</div>
+            <div class="option"><span class="label">D.</span> केवल आलोचना</div>
+          </div>
+        </li>
+        <li>
+          <div class="q-text">12. 'रचनाकार' शब्द किसे दर्शाता है?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> लेखक/कवि</div>
+            <div class="option"><span class="label">B.</span> पाठक</div>
+            <div class="option"><span class="label">C.</span> समीक्षक</div>
+            <div class="option"><span class="label">D.</span> अनुवादक</div>
+          </div>
+        </li>
+        <li>
+          <div class="q-text">13. 'निबंध' लिखते समय प्रयुक्त भाषा किस प्रकार की होनी चाहिए?</div>
+          <div class="options">
+            <div class="option"><span class="label">A.</span> स्पष्ट और संगठित</div>
+            <div class="option"><span class="label">B.</span> जटिल और अस्पष्ट</div>
+            <div class="option"><span class="label">C.</span> केवल मुहावरेदार</div>
+            <div class="option"><span class="label">D.</span> कोई नियम नहीं</div>
+          </div>
+        </li>
+      </ol>
+    </section>
+    <footer>
+      <div class="section-b">
+        <strong>भाग B — विवरणात्मक प्रश्न (6 प्रश्न)</strong>
+        <ol style="margin:6px 0 0 18px; font-size:12px; line-height:1.4;">
+          <li>प्रश्न 1: दीर्घ निबंध — 12 अंक</li>
+          <li>प्रश्न 2: बोधगम्य सारांश/व्याख्या — 10 अंक</li>
+          <li>प्रश्न 3: गद्य-शैली विश्लेषण — 8 अंक</li>
+          <li>प्रश्न 4: साहित्यिक चिंतन — 8 अंक</li>
+          <li>प्रश्न 5: रचना लेखन (निम्नलिखित विषयों पर) — 6 अंक</li>
+          <li>प्रश्न 6: व्याकरण अभ्यास (लघु) — 6 अंक</li>
+        </ol>
+      </div>
+      <div class="instructions">
+        निर्देश:
+        <div style="margin-top:6px;">• भाग A से केवल 50 प्रश्न अंकित करें और उत्तर OMR शीट पर भरें।<br>• हर सही उत्तर के लिए +1 अंक। गलत उत्तर पर अंक काटे नहीं जाते (यदि काटे जाएँ तो विशेष निर्देश दिये जायेंगे)।</div>
+      </div>
+    </footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script>
+    function printA4() {
+      window.print();
+    }
+    function downloadPDF() {
+      const element = document.getElementById('paper');
+      const prevWidth = element.style.width;
+      element.style.width = '210mm';
+      const opt = {
+        margin:       [10, 10, 10, 10],
+        filename:     'TARGET_MODEL_PAPER_CLASS_X_Dec2025.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save().finally(() => {
+        element.style.width = prevWidth || '';
+      });
+    }
+  </script>
+</body>
+</html>
