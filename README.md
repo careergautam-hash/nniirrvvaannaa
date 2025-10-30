@@ -1,160 +1,204 @@
-// QuestionPaperGenerator.jsx
-import React, { useState, useRef } from "react";
-import Tesseract from "tesseract.js";
-import jsPDF from "jspdf";
-
-export default function QuestionPaperGenerator() {
-  const [questions, setQuestions] = useState([]);
-  const [loadingOCR, setLoadingOCR] = useState(false);
-  const [inputText, setInputText] = useState("");
-  const [watermark, setWatermark] = useState("");
-  const [lineSpacing, setLineSpacing] = useState(1.5);
-  const [customInfo, setCustomInfo] = useState("");
-  const [previewHtml, setPreviewHtml] = useState("");
-  const fileInputRef = useRef();
-
-  // OCR scan image, extract text questions
-  const handleScan = () => {
-    const file = fileInputRef.current.files[0];
-    if (!file) return alert("Select an image to scan.");
-    setLoadingOCR(true);
-    Tesseract.recognize(file, "eng")
-      .then(({ data: { text } }) => {
-        setInputText(text);
-        const parsedQuestions = text.split("
-").filter((q) => q.trim() !== "");
-        setQuestions(parsedQuestions);
-      })
-      .finally(() => setLoadingOCR(false));
-  };
-
-  // Update preview HTML based on current inputs
-  const updatePreview = () => {
-    const questionHtml = questions
-      .map(
-        (q, idx) => `<p style="margin-bottom:${lineSpacing}em;">${idx + 1}. ${q}</p>`
-      )
-      .join("");
-    const watermarkHtml = watermark
-      ? `<div style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%) rotate(-45deg);opacity:0.1;font-size:5em;color:#000;">${watermark}</div>`
-      : "";
-    const customInfoHtml = `<div>${customInfo}</div>`;
-    const fullHtml = `
-      <div style="position:relative; padding:40px; font-family:Arial; font-size:14pt;">
-        ${watermarkHtml}
-        ${customInfoHtml}
-        ${questionHtml}
-      </div>`;
-    setPreviewHtml(fullHtml);
-  };
-
-  // Download the question paper as A4 PDF
-  const downloadPDF = () => {
-    const doc = new jsPDF({
-      unit: "pt",
-      format: "a4",
-    });
-    doc.setFont("times", "normal");
-    doc.setFontSize(12);
-    let y = 40;
-    if (watermark) {
-      doc.setTextColor(0, 0, 0, 15);
-      doc.text(watermark, 210, 420, { angle: 45 });
-      doc.setTextColor(0, 0, 0, 255);
-    }
-    if (customInfo) {
-      doc.text(customInfo, 40, y);
-      y += 40;
-    }
-    questions.forEach((q, i) => {
-      doc.text(`${i + 1}. ${q}`, 40, y);
-      y += 14 * lineSpacing;
-      if (y > 800) {
-        doc.addPage();
-        y = 40;
-      }
-    });
-    doc.save("question-paper.pdf");
-  };
-
-  return (
-    <div style={{ maxWidth: "900px", margin: "auto", padding: "20px" }}>
-      <h2>Question Paper Generator</h2>
-
-      <div>
-        <strong>Scan questions from image (JPEG/PNG): </strong>
-        <input type="file" accept="image/*" ref={fileInputRef} />
-        <button onClick={handleScan} disabled={loadingOCR}>
-          {loadingOCR ? "Scanning..." : "Scan"}
-        </button>
-      </div>
-
-      <div style={{ marginTop: "20px" }}>
-        <strong>Or paste questions (one per line):</strong>
-        <textarea
-          rows="6"
-          style={{ width: "100%" }}
-          value={inputText}
-          onChange={(e) => {
-            setInputText(e.target.value);
-            setQuestions(e.target.value.split("
-").filter((q) => q.trim() !== ""));
-          }}
-        />
-      </div>
-
-      <div style={{ marginTop: "20px" }}>
-        <label>Watermark Text:</label> <br />
-        <input
-          type="text"
-          value={watermark}
-          onChange={(e) => setWatermark(e.target.value)}
-          style={{ width: "100%" }}
-          placeholder="Enter watermark text"
-        />
-      </div>
-
-      <div style={{ marginTop: "20px" }}>
-        <label>Custom Information (will appear anywhere on paper):</label>
-        <textarea
-          rows="3"
-          style={{ width: "100%" }}
-          value={customInfo}
-          onChange={(e) => setCustomInfo(e.target.value)}
-          placeholder="Add any extra info"
-        />
-      </div>
-
-      <div style={{ marginTop: "20px" }}>
-        <label>Line Spacing (between questions):</label> <br />
-        <input
-          type="number"
-          value={lineSpacing}
-          min="1"
-          max="5"
-          step="0.1"
-          onChange={(e) => setLineSpacing(parseFloat(e.target.value))}
-        />
-      </div>
-
-      <div style={{ marginTop: "20px" }}>
-        <button onClick={updatePreview}>Preview Question Paper</button>
-        <button onClick={downloadPDF} style={{ marginLeft: "10px" }}>
-          Download PDF (A4)
-        </button>
-      </div>
-
-      <div
-        style={{
-          marginTop: "40px",
-          border: "1px solid #ccc",
-          minHeight: "300px",
-          position: "relative",
-          backgroundColor: "#fff",
-          padding: "10px",
-        }}
-        dangerouslySetInnerHTML={{ __html: previewHtml }}
-      />
-    </div>
-  );
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>हिंदी प्रश्नपत्र - A K CLASSES</title>
+<style>
+body {
+  font-family: "Noto Sans Devanagari", sans-serif;
+  color: #000;
+  margin: 50px;
+  line-height: 1.4;
+  background: #fff;
+  position: relative;
 }
+.watermark {
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  opacity: 0.08;
+  color: #000;
+  font-size: 80px;
+  transform: rotate(-20deg);
+  z-index: -1;
+}
+.watermark.top { top: 25%; }
+.watermark.bottom { bottom: 25%; }
+h1,h2,h3 {
+  text-align: center;
+  margin: 0;
+}
+hr { border: 1px solid #000; }
+.section-title {
+  font-weight: bold;
+  margin-top: 30px;
+}
+button {
+  margin: 20px auto;
+  display: block;
+  padding: 10px 20px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="watermark top">A K CLASSES</div>
+<div class="watermark bottom">A K CLASSES</div>
+
+<h1>A K CLASSES </h1>
+<h2>विषय: हिंदी भाषा एवं सामान्य ज्ञान</h2>
+<h3>कक्षा: 12</h3>
+<h3>समय: 3 घंटे  पूर्णांक: 100</h3>
+<hr>
+
+<h3>निर्देश:</h3>
+<p>भाग A के 40 में से किसी भी 20 प्रश्नों के उत्तर दें।</p>
+<p>भाग B के 30 में से किसी भी 15 प्रश्नों के उत्तर दें।</p>
+<p>भाग C के 30 में से किसी भी 15 प्रश्नों के उत्तर दें।</p>
+
+<hr>
+
+<h2 class="section-title">भाग – A : बहुविकल्पीय प्रश्न (प्रत्येक 1 अंक)</h2>
+
+<ol>
+<li>'अम्बर' शब्द का पर्यायवाची है — (क) आकाश (ख) पृथ्वी (ग) बादल (घ) समुद्र</li>
+<li>'ईश्वर' का विलोम शब्द है — (क) असुर (ख) मानव (ग) दानव (घ) इनमें से कोई नहीं</li>
+<li>'अमृत' का विलोम शब्द है — (क) विष (ख) मदिरा (ग) दूध (घ) जल</li>
+<li>'स्वच्छ' का विलोम शब्द है — (क) अशुद्ध (ख) गंदा (ग) धूमिल (घ) सब</li>
+<li>'वर्ग' का विलोम शब्द है — (क) अवर्ग (ख) गोल (ग) वर्गहीन (घ) कोई नहीं</li>
+<li>'वर्ण' का विलोम शब्द है — (क) निर्वर्ण (ख) वर्णन (ग) ध्वनि (घ) अक्षर</li>
+<li>'अग्नि' का विलोम शब्द है — (क) जल (ख) वायु (ग) पृथ्वी (घ) आकाश</li>
+<li>'अग्नि' का स्त्रीलिंग रूप है — (क) अग्नि (ख) अग्निका (ग) अग्निका (घ) इनमें से कोई नहीं</li>
+<li>मैक्समूलर ने किस देश को ज्ञान और सौंदर्य से पूर्ण कहा — (क) भारत (ख) जापान (ग) कनाडा (घ) चीन</li>
+<li>'राम नाम गौ सोधना' किसकी रचना है — (क) रसखान (ख) प्रेम घनश्याम (ग) जगरनाथ दास (घ) गुरु नानक</li>
+<li>'हिरोशिमा' कविता किससे ली गई — (क) काव्य संग्रह (ख) आधुनिक काव्य (ग) हिरोशिमा (घ) कोई नहीं</li>
+<li>'जनतंत्र का जन्म' कविता में पीड़ित किसे बताया गया — (क) जनता (ख) राजा (ग) भारतमाता (घ) कोई नहीं</li>
+<li>'पुस्तक' का पर्यायवाची शब्द है — (क) ग्रंथ (ख) पत्र (ग) कागज (घ) लिपि</li>
+<li>'शांति' का विलोम है — (क) युद्ध (ख) कोलाहल (ग) संघर्ष (घ) सब</li>
+<li>'जल' का विलोम है — (क) अग्नि (ख) शुष्कता (ग) वायु (घ) धूल</li>
+<li>'प्रभात' का विलोम शब्द है — (क) सन्ध्या (ख) दोपहर (ग) रात्रि (घ) दिन</li>
+<li>'पुत्री' का पुल्लिंग रूप है — (क) पुत्र (ख) कन्या (ग) बालक (घ) कोई नहीं</li>
+<li>'सुख' का विलोम शब्द है — (क) दुःख (ख) पीड़ा (ग) क्लेश (घ) उदासी</li>
+<li>'देवता' का स्त्रीलिंग रूप है — (क) देवी (ख) देविका (ग) दैवी (घ) कोई नहीं</li>
+<li>'शिक्षक' का स्त्रीलिंग रूप है — (क) शिक्षिका (ख) अध्यापिका (ग) गुरुमाता (घ) सब</li>
+<li>'भारत' शब्द किससे बना है — (क) भरत + अ (ख) भाव + रत (ग) भू + रत (घ) कोई नहीं</li>
+<li>'आशा' का विलोम शब्द है — (क) निराशा (ख) दुख (ग) वैराग्य (घ) भय</li>
+<li>'साहित्य' शब्द का अर्थ है — (क) साथ रहना (ख) भाषा ज्ञान (ग) कविता (घ) कहानी</li>
+<li>'महाकाव्य' का उदाहरण है — (क) रामायण (ख) गीतांजलि (ग) कामायनी (घ) कोई नहीं</li>
+<li>'पद्य' में क्या होता है — (क) छंद (ख) लय (ग) तुक (घ) सब</li>
+<li>'गद्य' का विलोम है — (क) पद्य (ख) कथा (ग) वर्णन (घ) कोई नहीं</li>
+<li>'सूरदास' किस युग के कवि थे — (क) भक्ति (ख) रीति (ग) आधुनिक (घ) आदिकाल</li>
+<li>'कबीर' का जन्म कहाँ हुआ था — (क) वाराणसी (ख) मगहर (ग) दिल्ली (घ) कोई नहीं</li>
+<li>'तुलसीदास' ने कौन सा ग्रंथ लिखा — (क) रामचरितमानस (ख) गीतांजलि (ग) कामायनी (घ) रसतरंगिणी</li>
+<li>'भारत' का राष्ट्रीय पशु कौन है — (क) बाघ (ख) हाथी (ग) गाय (घ) घोड़ा</li>
+<li>'भारत' का राष्ट्रीय पक्षी कौन है — (क) मोर (ख) कबूतर (ग) तोता (घ) कोयल</li>
+<li>'भारत' का राष्ट्रीय फूल कौन है — (क) कमल (ख) गुलाब (ग) सूरजमुखी (घ) चंपा</li>
+<li>'भारत' का राष्ट्रीय फल कौन है — (क) आम (ख) केला (ग) संतरा (घ) अमरूद</li>
+<li>'भारत' का राष्ट्रीय वृक्ष कौन है — (क) पीपल (ख) वटवृक्ष (ग) नीम (घ) आम</li>
+<li>'गुरु नानक' का जन्म दिवस क्या कहलाता है — (क) गुरु पर्व (ख) प्रकाश पर्व (ग) ज्ञान दिवस (घ) कोई नहीं</li>
+<li>'स्वराज' का अर्थ है — (क) अपना राज्य (ख) विदेशी शासन (ग) राजमहल (घ) मंत्री परिषद</li>
+<li>'लोकमान्य तिलक' का नारा था — (क) स्वराज मेरा जन्मसिद्ध अधिकार है (ख) जय हिन्द (ग) वंदे मातरम् (घ) सत्यमेव जयते</li>
+<li>'राम' के पिता का नाम क्या था — (क) दशरथ (ख) जनक (ग) वशिष्ठ (घ) विश्वामित्र</li>
+<li>'सीता' का जन्मस्थान कौन सा है — (क) मिथिला (ख) अयोध्या (ग) लंका (घ) चित्रकूट</li>
+<li>'महात्मा गांधी' का जन्म कहाँ हुआ — (क) पोरबंदर (ख) अहमदाबाद (ग) दिल्ली (घ) राजकोट</li>
+</ol>
+
+<hr>
+
+<h2 class="section-title">भाग – B : लघु उत्तरीय प्रश्न (प्रत्येक 2 अंक)</h2>
+<ol start="41">
+<li>'भक्ति आंदोलन' के मुख्य उद्देश्य लिखिए।</li>
+<li>'रीतिकाल' की प्रमुख विशेषताएँ बताइए।</li>
+<li>'रामचरितमानस' का महत्त्व क्या है?</li>
+<li>'कबीर' की वाणी में सामाजिक सन्देश क्या है?</li>
+<li>'सूरदास' की भक्ति भावना पर टिप्पणी कीजिए।</li>
+<li>'भारत' के राष्ट्रीय प्रतीकों के नाम लिखिए।</li>
+<li>'गीतांजलि' के कवि का नाम लिखिए।</li>
+<li>'कामायनी' के रचयिता कौन हैं?</li>
+<li>'महाभारत' में कितने पर्व हैं?</li>
+<li>'गुरु नानक' के उपदेशों का सार लिखिए।</li>
+<li>'प्रेमचंद' की दो प्रसिद्ध कहानियाँ लिखिए।</li>
+<li>'गोदान' का मुख्य पात्र कौन है?</li>
+<li>'भारत' का संविधान कब लागू हुआ?</li>
+<li>'राष्ट्रीय गान' के रचयिता कौन हैं?</li>
+<li>'वंदे मातरम्' गीत के कवि का नाम लिखिए।</li>
+<li>'जयशंकर प्रसाद' की दो रचनाएँ बताइए।</li>
+<li>'भारत' की राजधानी कौन सी है?</li>
+<li>'रवीन्द्रनाथ टैगोर' को नोबेल पुरस्कार किस कृति पर मिला?</li>
+<li>'सुभद्रा कुमारी चौहान' की प्रसिद्ध कविता कौन सी है?</li>
+<li>'भारतीय संस्कृति' की विशेषता बताइए।</li>
+<li>'संस्कृत' भाषा को किस नाम से जाना जाता है?</li>
+<li>'लोकगीत' क्या होता है?</li>
+<li>'नाटक' के दो अंग लिखिए।</li>
+<li>'पत्र' लेखन के प्रकार बताइए।</li>
+<li>'भाषा' और 'बोली' में अंतर लिखिए।</li>
+<li>'शब्द' की परिभाषा लिखिए।</li>
+<li>'कविता' के चार अंग लिखिए।</li>
+<li>'व्याकरण' का महत्व बताइए।</li>
+<li>'संधि' क्या है, उदाहरण सहित बताइए।</li>
+<li>'समास' के प्रकार बताइए।</li>
+</ol>
+
+<hr>
+
+<h2 class="section-title">भाग – C : दीर्घ उत्तरीय प्रश्न (प्रत्येक 4 अंक)</h2>
+<ol start="71">
+<li>'भक्ति काल' के प्रमुख कवियों का योगदान विस्तार से लिखिए।</li>
+<li>'कबीर' की भाषा शैली और विचारों का वर्णन कीजिए।</li>
+<li>'तुलसीदास' की भक्ति भावना का विवेचन कीजिए।</li>
+<li>'सूरदास' की कविता में कृष्णभक्ति का स्वर समझाइए।</li>
+<li>'जयशंकर प्रसाद' के काव्य में मानवीय संवेदना पर टिप्पणी कीजिए।</li>
+<li>'महात्मा गांधी' के विचारों का प्रभाव हिंदी साहित्य पर बताइए।</li>
+<li>'भारतीय संस्कृति' में साहित्य का स्थान समझाइए।</li>
+<li>'आधुनिक हिंदी कविता' की प्रमुख प्रवृत्तियाँ बताइए।</li>
+<li>'हिंदी भाषा' के विकास में संस्कृत का योगदान स्पष्ट कीजिए।</li>
+<li>'नाटक' और 'उपन्यास' में अंतर स्पष्ट कीजिए।</li>
+<li>'सुभद्रा कुमारी चौहान' की कविताओं में देशभक्ति का भाव बताइए।</li>
+<li>'प्रेमचंद' के कथा-साहित्य का सामाजिक महत्त्व लिखिए।</li>
+<li>'भारत' की सांस्कृतिक विविधता पर एक निबंध लिखिए।</li>
+<li>'महिला लेखिकाओं' का हिंदी साहित्य में योगदान बताइए।</li>
+<li>'गुरु नानक' के उपदेशों का समाज पर प्रभाव बताइए।</li>
+<li>'लोककथाओं' की सामाजिक उपयोगिता पर विचार कीजिए।</li>
+<li>'रीतिकालीन' काव्य में श्रृंगार रस का विवेचन कीजिए।</li>
+<li>'कामायनी' के प्रतीकात्मक स्वरूप को स्पष्ट कीजिए।</li>
+<li>'भारत' की शिक्षा प्रणाली पर अपने विचार दीजिए।</li>
+<li>'साहित्य समाज का दर्पण है' — इस कथन पर प्रकाश डालिए।</li>
+<li>'कविता' और 'कहानी' की भिन्नता स्पष्ट कीजिए।</li>
+<li>'आधुनिक हिंदी नाटक' की विशेषताएँ बताइए।</li>
+<li>'रवीन्द्रनाथ टैगोर' के आदर्शों का प्रभाव वर्णन कीजिए।</li>
+<li>'रामचरितमानस' के आदर्श पात्रों पर निबंध लिखिए।</li>
+<li>'भारतीय युवाओं' की भूमिका राष्ट्र निर्माण में समझाइए।</li>
+<li>'भाषा' की शुद्धता के लिए आवश्यक उपाय बताइए।</li>
+<li>'काव्य' की परिभाषा और उसके अंगों का वर्णन कीजिए।</li>
+<li>'पत्रकारिता' के सामाजिक दायित्व पर विचार कीजिए।</li>
+<li>'पर्यावरण संरक्षण' पर निबंध लिखिए।</li>
+<li>'भारतीय स्वतंत्रता संग्राम' में साहित्य की भूमिका स्पष्ट कीजिए।</li>
+</ol>
+
+<hr>
+
+<button onclick="downloadPDF()">PDF (A4) डाउनलोड करें</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script>
+function downloadPDF() {
+  var element = document.body;
+  var opt = {
+    margin:       0.5,
+    filename:     'Hindi_Question_Paper_AK_Classes.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(element).save();
+}
+</script>
+
+</body>
+</html>
