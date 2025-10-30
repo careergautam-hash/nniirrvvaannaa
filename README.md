@@ -71,7 +71,7 @@
 
 <h1> A K CLASSES </h1>
 <h2>SUBJECT- GK & LANGUAGE </h2>
-<h3> TIME- 3 hrs MAXIMUM MARKS- 100</h3>
+<h3> TIME- 3 hrs TOTAL MARKS- 100</h3>
 
 <div class="watermark-center">A K CLASSES</div>
 
