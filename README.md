@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>हिंदी प्रश्न-पत्र - A K CLASSES</title>
 <style>
-  body {
+  body {<div class="watermark top">A K CLASSES</div>
+<div class="watermark bottom">A K CLASSES</div>
     font-family: "Mangal", "Noto Sans Devanagari", serif;
     margin: 28px;
     color: #000;
