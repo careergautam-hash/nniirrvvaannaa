@@ -1,0 +1,11 @@
+Merge the following two HTML pages into one single complete HTML page.
+Keep all meta tags, styles, and scripts from both.
+Avoid duplicate <html>, <head>, and <body> tags.
+Put the second page’s content after the first page’s content.
+Ensure the result is valid and responsive HTML.
+
+Page 1:
+<PASTE FIRST HTML>
+
+Page 2:
+<PASTE SECOND HTML>
