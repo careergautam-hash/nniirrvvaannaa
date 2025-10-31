@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>AK CLASSES - Class 12 Question Paper</title>
+<style>
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+  body {
+    font-family: "Noto Sans Devanagari", sans-serif;
+    font-size: 11px;
+    line-height: 1.1;
+    position: relative;
+  }
+  .watermark {
+    position: fixed;
+    opacity: 0.1;
+    font-size: 48px;
+    color: #000;
+    transform: rotate(-30deg);
+    width: 100%;
+    text-align: center;
+    z-index: -1;
+  }
+  .top-left { top: 5%; left: 0; }
+  .top-right { top: 5%; right: 0; }
+  .middle { top: 45%; left: 0; right: 0; }
+  .bottom-left { bottom: 10%; left: 0; }
+  .bottom-right { bottom: 10%; right: 0; }
+  .middle-lower { top: 65%; left: 0; right: 0; }
+
+  h1, h2, h3 {
+    text-align: center;
+    margin: 0;
+  }
+  h1 { font-size: 18px; margin-bottom: 4px; }
+  h2 { font-size: 14px; margin-bottom: 4px; }
+  h3 { font-size: 12px; margin-top: 8px; }
+  ol { margin: 0; padding-left: 18px; }
+  .section { margin-bottom: 8px; }
+  .question { margin-bottom: 3px; }
+  .options { margin-left: 18px; }
+</style>
+</head>
+<body>
+
+<!-- Watermarks -->
+<div class="watermark top-left">AK CLASSES</div>
+<div class="watermark top-right">AK CLASSES</div>
+<div class="watermark middle">AK CLASSES</div>
+<div class="watermark middle-lower">AK CLASSES</div>
+<div class="watermark bottom-left">AK CLASSES</div>
+<div class="watermark bottom-right">AK CLASSES</div>
+
+<h1>AK CLASSES</h1>
+<h2>कक्षा 12 परीक्षा प्रश्नपत्र</h2>
+<h3>कुल प्रश्न: 90 | समय: 3 घंटे | अधिकतम अंक: 100</h3>
+
+<hr>
+
+<div class="section">
+  <h3>SECTION A: बहुविकल्पीय प्रश्न (किसी भी 40 प्रश्नों के उत्तर दें)</h3>
+  <ol>
+    <li class="question">गाँधीजी शिक्षा का उद्देश्य क्या मानते थे?<br>
+      <div class="options">(A) नौकरी पाना<br>(B) वैज्ञानिक दक्षता<br>(C) चरित्र-निर्माण<br>(D) यांत्रिक दक्षता</div>
+    </li>
+    <li class="question">घनानंद ने किस मार्ग को अत्यन्त सीधा व सरल कहा है?<br>
+      <div class="options">(A) क्रोध<br>(B) प्रेम<br>(C) घृणा<br>(D) कपट</div>
+    </li>
+    <li class="question">'रसखान' को किसने दीक्षा दी?<br>
+      <div class="options">(A) वल्लभाचार्य<br>(B) गोकुलनाथ<br>(C) गोस्वामी विट्ठलनाथ<br>(D) गोरखनाथ</div>
+    </li>
+    <li class="question">घनानंद किस भाषा के कवि हैं?<br>
+      <div class="options">(A) अवधी<br>(B) ब्रजभाषा<br>(C) भोजपुरी<br>(D) गुजराती</div>
+    </li>
+    <li class="question">'तुलनात्मक व्याकरण' किसकी रचना है?<br>
+      <div class="options">(A) सातकोड़ी होता<br>(B) सुजाता<br>(C) काल्डवेल<br>(D) सौवर दइया</div>
+    </li>
+    <li class="question">मंगम्मा को किससे विवाद था?<br>
+      <div class="options">(A) बेटे से<br>(B) बहू से<br>(C) पोते से<br>(D) सास से</div>
+    </li>
+    <li class="question">'हिरोशिमा' शीर्षक कविता में वर्णित सूरज कहाँ निकला?<br>
+      <div class="options">(A) पूर्वी क्षितिज पर<br>(B) नगर के चौक पर<br>(C) पूर्वी दिशा में<br>(D) इनमें से कहीं नहीं</div>
+    </li>
+    <li class="question">अव्ययीभाव समास का उदाहरण है?<br>
+      <div class="options">(A) लवकुश<br>(B) भरपेट<br>(C) त्रिभुवन<br>(D) छत्रधारी</div>
+    </li>
+    <li class="question">बेईमान में कौन-सा उपसर्ग है?<br>
+      <div class="options">(A) बेइन<br>(B) बेइ<br>(C) बे<br>(D) इन</div>
+    </li>
+    <li class="question">इनमें से शुद्ध वाक्य को पहचानें।<br>
+      <div class="options">(A) मेरे को घर जाना है।<br>(B) मेरा नाम आनन्द जी है।<br>(C) मेरे को घर जाना है।<br>(D) मुझको घर पर जाना है।</div>
+    </li>
+    <li class="question">'अज्ञान' का पर्यायवाची शब्द है।<br>
+      <div class="options">(A) ज्ञान<br>(B) अज्ञान<br>(C) अज्ञानता<br>(D) समझ</div>
+    </li>
+    <li class="question">'अज्ञान' का विलोम शब्द है।<br>
+      <div class="options">(A) ज्ञान<br>(B) अज्ञान<br>(C) अज्ञानता<br>(D) समझ</div>
+    </li>
+    <li class="question">'अत्यधिक' में कौन-सा उपसर्ग है?<br>
+      <div class="options">(A) अति<br>(B) परा<br>(C) उप<br>(D) अनु</div>
+    </li>
+    <li class="question">'अत्यधिक' शब्द का अर्थ क्या है?<br>
+      <div class="options">(A) बहुत अधिक<br>(B) थोड़ा<br>(C) कम<br>(D) मध्यम</div>
+    </li>
+    <li class="question">मैक्समूलर ने सर्वविद्संपदा और प्राकृतिक सौंदर्य से परिपूर्ण किस देश को माना है?<br>
+      <div class="options">(A) जापान<br>(B) श्रीलंका<br>(C) भारत<br>(D) कनाडा</div>
+    </li>
+    <li class="question">गुरु नानक के किस पद में राम-नाम के कीर्तन पर बल दिया गया है?<br>
+      <div class="options">(A) प्रथम पद<br>(B) द्वितीय पद<br>(C) तृतीय पद<br>(D) इनमें से कोई नहीं</div>
+    </li>
+    <li class="question">राधा किसकी पत्नी है?<br>
+      <div class="options">(A) कैलास की<br>(B) नारायण की<br>(C) हरि की<br>(D) बिज्जू की</div>
+    </li>
+    <li class="question">बहादुर से सोने के समय कौन मालिश करता था?<br>
+      <div class="options">(A) किशोर<br>(B) निर्मला<br>(C) लेखक<br>(D) काशु</div>
+    </li>
+    <li class="question">बिरजू महाराज की शादी कितनी उम्र में हुई थी?<br>
+      <div class="options">(A) 16 वर्ष<br>(B) 18 वर्ष<br>(C) 15 वर्ष<br>(D) 17 वर्ष</div>
+    </li>
+    <li class="question">'श्रम' शब्द का पर्यायवाची है?<br>
+      <div class="options">(A) परिश्रम<br>(B) श्रम<br>(C) काम<br>(D) मजदूरी</div>
+    </li>
+    <li class="question">'विनायक' शब्द का संधि विच्छेद क्या है?<br>
+      <div class="options">(A) वि + नायक<br>(B) विन + नायक<br>(C) विना + यक<br>(D) इनमें से कोई नहीं</div>
+    </li>
+    <li class="question">'अग्नि' शब्द का विलोम है?<br>
+      <div class="options">(A) जल<br>(B) पृथ्वी<br>(C) वायु<br>(D) आकाश</div>
+    </li>
+    <li class="question">'उच्छ्वास' शब्द का अर्थ है?<br>
+      <div class="options">(A) ऊपर की श्वास<br>(B) अंदर की श्वास<br>(C) नीचे की श्वास<br>(D) बाहर की श्वास</div>
+    </li>
+    <!-- Add remaining up to 40 -->
+  </ol>
+</div>
+
+<hr>
+
+<div class="section">
+  <h3>SECTION B: लघु उत्तरीय प्रश्न (किसी भी 15 प्रश्नों के उत्तर दें)</h3>
+  <ol start="41">
+    <li>‘चरित्र निर्माण’ शब्द से आप क्या समझते हैं?</li>
+    <li>‘घनानंद’ की कविता की प्रमुख विशेषताएँ लिखिए।</li>
+    <li>‘अव्ययीभाव समास’ का उदाहरण दीजिए।</li>
+    <li>‘हिरोशिमा’ कविता का संदेश क्या है?</li>
+    <li>‘गुरु नानक’ के उपदेश का मुख्य सार क्या है?</li>
+    <li>‘मैक्समूलर’ ने भारत की किन बातों की प्रशंसा की?</li>
+    <li>‘अत्यधिक’ शब्द का प्रयोग कर दो वाक्य बनाइए।</li>
+    <li>‘रसखान’ का जीवन दर्शन क्या है?</li>
+    <li>‘अग्नि’ शब्द से क्या प्रतीक मिलता है?</li>
+    <li>‘श्रम’ का महत्व स्पष्ट कीजिए।</li>
+    <li>‘अज्ञान’ से समाज को क्या हानि होती है?</li>
+    <li>‘बेईमान’ शब्द से वाक्य बनाइए।</li>
+    <li>‘राधा’ का साहित्यिक स्वरूप वर्णन करें।</li>
+    <li>‘विनायक’ का अर्थ क्या है?</li>
+    <li>‘प्रेम’ के मार्ग को सरल क्यों कहा गया है?</li>
+    <li>‘भाषा’ का समाज पर प्रभाव क्या है?</li>
+    <li>‘सत्य’ का महत्व बताइए।</li>
+    <li>‘कवि’ समाज का दर्पण क्यों कहलाता है?</li>
+    <li>‘शिक्षा’ का उद्देश्य क्या होना चाहिए?</li>
+    <li>‘कला’ का महत्व समझाइए।</li>
+    <li>‘भारतीय संस्कृति’ की विशेषताएँ क्या हैं?</li>
+    <li>‘चरित्र’ निर्माण में शिक्षा की भूमिका लिखिए।</li>
+    <li>‘कविता’ जीवन से कैसे जुड़ी है?</li>
+    <li>‘भक्ति’ और ‘प्रेम’ का संबंध स्पष्ट करें।</li>
+    <li>‘गांधीजी’ के अनुसार सच्ची शिक्षा क्या है?</li>
+    <li>‘अध्ययन’ का लाभ लिखिए।</li>
+    <li>‘गुरु’ का महत्व बताइए।</li>
+    <li>‘भारत’ की विशेषता क्या है?</li>
+    <li>‘विद्या’ का उद्देश्य क्या होना चाहिए?</li>
+    <li>‘महात्मा गांधी’ के विचारों पर टिप्पणी करें।</li>
+  </ol>
+</div>
+
+<hr>
+
+<div class="section">
+  <h3>SECTION C: दीर्घ उत्तरीय प्रश्न (किसी भी 10 प्रश्नों के उत्तर दें)</h3>
+  <ol start="71">
+    <li>‘भारतीय संस्कृति और शिक्षा’ पर एक निबंध लिखिए।</li>
+    <li>‘घनानंद’ के काव्य में प्रेम का चित्रण कीजिए।</li>
+    <li>‘गुरु नानक’ के उपदेशों पर टिप्पणी करें।</li>
+    <li>‘मैक्समूलर’ द्वारा भारत की प्रशंसा का विश्लेषण करें।</li>
+    <li>‘गांधीजी’ के शिक्षा संबंधी विचारों का विवेचन करें।</li>
+    <li>‘भक्ति साहित्य’ का सामाजिक प्रभाव बताइए।</li>
+    <li>‘हिरोशिमा’ कविता का भावार्थ लिखिए।</li>
+    <li>‘रसखान’ की कविताओं में प्रेम भावना का वर्णन करें।</li>
+    <li>‘भारतीय भाषा और साहित्य’ पर विस्तृत टिप्पणी करें।</li>
+    <li>‘चरित्र निर्माण में शिक्षा’ की भूमिका लिखिए।</li>
+    <li>‘साहित्य समाज का दर्पण है’ — इस कथन की व्याख्या करें।</li>
+    <li>‘श्रम’ का जीवन में महत्व लिखिए।</li>
+    <li>‘भारत की सांस्कृतिक एकता’ पर निबंध लिखिए।</li>
+    <li>‘कवि’ की समाज में भूमिका समझाइए।</li>
+    <li>‘ज्ञान और अज्ञान’ का तुलनात्मक विवेचन कीजिए।</li>
+    <li>‘कला और साहित्य’ का संबंध बताइए।</li>
+    <li>‘मानवता’ का महत्व बताइए।</li>
+    <li>‘प्रेम’ की शक्ति पर अपने विचार लिखिए।</li>
+    <li>‘सत्य और अहिंसा’ के महत्व पर चर्चा कीजिए।</li>
+    <li>‘भारतीय शिक्षा पद्धति’ की विशेषताओं पर लेख लिखिए।</li>
+  </ol>
+</div>
+
+</body>
+</html>
