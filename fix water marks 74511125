@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF with Fixed Watermarks</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      position: relative;
+    }
+
+    /* Watermark common style */
+    .watermark {
+      position: fixed;
+      color: rgba(150, 150, 150, 0.15);
+      font-size: 40px;
+      font-weight: bold;
+      transform: rotate(-30deg);
+      pointer-events: none;
+      z-index: -1;
+      user-select: none;
+    }
+
+    /* Six positions */
+    .wm-top-left { top: 5%; left: 10%; }
+    .wm-top-center { top: 5%; left: 40%; }
+    .wm-top-right { top: 5%; right: 10%; }
+    .wm-middle-left { top: 40%; left: 10%; }
+    .wm-middle-right { top: 40%; right: 10%; }
+    .wm-bottom-center { bottom: 5%; left: 35%; }
+
+    /* Example content area */
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 6 Fixed Watermarks -->
+  <div class="watermark wm-top-left">A K CLASSES</div>
+  <div class="watermark wm-top-center">A K CLASSES</div>
+  <div class="watermark wm-top-right">A K CLASSES</div>
+  <div class="watermark wm-middle-left">A K CLASSES</div>
+  <div class="watermark wm-middle-right">A K CLASSES</div>
+  <div class="watermark wm-bottom-center">A K CLASSES</div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <h1 style="text-align:center;">Sample Exam Paper</h1>
+    <p>This is the sample text content. When you export this HTML to PDF (A4 size), 
+       you will see six faint “A K CLASSES” watermarks fixed in the background.</p>
+  </div>
+
+</body>
+</html>
