@@ -1,0 +1,5 @@
+Merge the following two HTML files into one complete responsive HTML page.
+Keep all meta tags, styles, and scripts from both.
+Avoid duplicate <html>, <head>, and <body> tags.
+Put the second page’s content below the first page’s content.
+Ensure the final code is valid and mobile-friendly.
