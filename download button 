@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Download Page Demo</title>
+  <style>
+    body { font-family: system-ui, Arial; padding: 24px; line-height: 1.5; }
+    .download-btn {
+      display: inline-block;
+      padding: 10px 16px;
+      background: #0066cc;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      font-weight: 600;
+    }
+    .note { margin-top: 12px; color: #555; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+
+  <h1>Download Page As-Is</h1>
+  <p>This page demonstrates a button that downloads the current page HTML as a file.</p>
+
+  <button id="downloadPage" class="download-btn">Download Page (current HTML)</button>
+
+  <p class="note">Tip: try editing the page with the console or dynamically changing DOM before clicking — the download will include the current DOM state.</p>
+
+  <script>
+    document.getElementById('downloadPage').addEventListener('click', function () {
+      // Serialize DOCTYPE if present (so saved file has the proper <!DOCTYPE html>)
+      let doctype = '';
+      if (document.doctype) {
+        // XMLSerializer handles the doctype serialization
+        doctype = new XMLSerializer().serializeToString(document.doctype) + '\\n';
+      } else {
+        doctype = '<!DOCTYPE html>\\n';
+      }
+
+      // Get the current HTML of the document (includes current DOM changes)
+      const html = doctype + document.documentElement.outerHTML;
+
+      // Create a blob and download
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+
+      // Create a filename with timestamp
+      const now = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const filename = `page-${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}.html`;
+
+      // Trigger download
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        // IE/Edge fallback
+        window.navigator.msSaveOrOpenBlob(blob, filename);
+      } else {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        // cleanup
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 100);
+      }
+    });
+  </script>
+
+</body>
+</html>
