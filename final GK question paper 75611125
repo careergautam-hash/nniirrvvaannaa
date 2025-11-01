@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AK CLASSES - Combined Paper</title>
+
+  <!-- Styles from both pages merged -->
+  <style>
+    @page {
+      size: A4;
+      margin: 1cm;
+    }
+
+    body {
+      font-family: Arial, "Noto Sans Devanagari", sans-serif;
+      font-size: 11px;
+      line-height: 1.2;
+      margin: 40px;
+      position: relative;
+    }
+
+    /* Unified watermark style */
+    .watermark {
+      position: fixed;
+      color: rgba(150, 150, 150, 0.15);
+      font-size: 40px;
+      font-weight: bold;
+      transform: rotate(-30deg);
+      pointer-events: none;
+      z-index: -1;
+      user-select: none;
+    }
+
+    /* Six fixed positions */
+    .wm-top-left { top: 5%; left: 10%; }
+    .wm-top-center { top: 5%; left: 40%; }
+    .wm-top-right { top: 5%; right: 10%; }
+    .wm-middle-left { top: 40%; left: 10%; }
+    .wm-middle-right { top: 40%; right: 10%; }
+    .wm-bottom-center { bottom: 5%; left: 35%; }
+
+    /* Headings */
+    h1, h2, h3 {
+      text-align: center;
+      margin: 0;
+    }
+    h1 { font-size: 18px; margin-bottom: 6px; }
+    h2 { font-size: 14px; margin-bottom: 4px; }
+    h3 { font-size: 12px; margin-top: 8px; }
+
+    /* Content structure */
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+    ol {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .section {
+      margin-bottom: 8px;
+    }
+    .question {
+      margin-bottom: 3px;
+    }
+    .options {
+      margin-left: 18px;
+    }
+
+    hr {
+      margin: 10px 0;
+      border: 0;
+      border-top: 1px solid #aaa;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Six unified fixed watermarks -->
+  <div class="watermark wm-top-left">A K CLASSES</div>
+  <div class="watermark wm-top-center">A K CLASSES</div>
+  <div class="watermark wm-top-right">A K CLASSES</div>
+  <div class="watermark wm-middle-left">A K CLASSES</div>
+  <div class="watermark wm-middle-right">A K CLASSES</div>
+  <div class="watermark wm-bottom-center">A K CLASSES</div>
+
+  <!-- === PAGE 1 CONTENT === -->
+  <div class="content">
+    <h1>Sample Exam Paper</h1>
+    <p style="text-align:justify;">
+      This is the sample text content. When you export this HTML to PDF (A4 size),
+      you will see six faint “A K CLASSES” watermarks fixed in the background.
+    </p>
+  </div>
+
+  <hr>
+
+  <!-- === PAGE 2 CONTENT === -->
+  <div class="content">
+    <h1>AK CLASSES</h1>
+    <h2>कक्षा 12 परीक्षा प्रश्नपत्र</h2>
+    <h3>कुल प्रश्न: 90 | समय: 3 घंटे | अधिकतम अंक: 100</h3>
+
+    <hr>
+
+    <div class="section">
+      <h3>SECTION A: बहुविकल्पीय प्रश्न (किसी भी 40 प्रश्नों के उत्तर दें)</h3>
+      <ol>
+        <li class="question">गाँधीजी शिक्षा का उद्देश्य क्या मानते थे?<br>
+          <div class="options">(A) नौकरी पाना<br>(B) वैज्ञानिक दक्षता<br>(C) चरित्र-निर्माण<br>(D) यांत्रिक दक्षता</div>
+        </li>
+        <li class="question">घनानंद ने किस मार्ग को अत्यन्त सीधा व सरल कहा है?<br>
+          <div class="options">(A) क्रोध<br>(B) प्रेम<br>(C) घृणा<br>(D) कपट</div>
+        </li>
+        <li class="question">'रसखान' को किसने दीक्षा दी?<br>
+          <div class="options">(A) वल्लभाचार्य<br>(B) गोकुलनाथ<br>(C) गोस्वामी विट्ठलनाथ<br>(D) गोरखनाथ</div>
+        </li>
+        <li class="question">घनानंद किस भाषा के कवि हैं?<br>
+          <div class="options">(A) अवधी<br>(B) ब्रजभाषा<br>(C) भोजपुरी<br>(D) गुजराती</div>
+        </li>
+        <li class="question">'तुलनात्मक व्याकरण' किसकी रचना है?<br>
+          <div class="options">(A) सातकोड़ी होता<br>(B) सुजाता<br>(C) काल्डवेल<br>(D) सौवर दइया</div>
+        </li>
+        <li class="question">मंगम्मा को किससे विवाद था?<br>
+          <div class="options">(A) बेटे से<br>(B) बहू से<br>(C) पोते से<br>(D) सास से</div>
+        </li>
+        <li class="question">'हिरोशिमा' शीर्षक कविता में वर्णित सूरज कहाँ निकला?<br>
+          <div class="options">(A) पूर्वी क्षितिज पर<br>(B) नगर के चौक पर<br>(C) पूर्वी दिशा में<br>(D) इनमें से कहीं नहीं</div>
+        </li>
+        <li class="question">अव्ययीभाव समास का उदाहरण है?<br>
+          <div class="options">(A) लवकुश<br>(B) भरपेट<br>(C) त्रिभुवन<br>(D) छत्रधारी</div>
+        </li>
+        <li class="question">बेईमान में कौन-सा उपसर्ग है?<br>
+          <div class="options">(A) बेइन<br>(B) बेइ<br>(C) बे<br>(D) इन</div>
+        </li>
+        <li class="question">इनमें से शुद्ध वाक्य को पहचानें।<br>
+          <div class="options">(A) मेरे को घर जाना है।<br>(B) मेरा नाम आनन्द जी है।<br>(C) मेरे को घर जाना है।<br>(D) मुझको घर पर जाना है।</div>
+        </li>
+        <!-- Additional questions continue similarly -->
+      </ol>
+    </div>
+
+    <hr>
+
+    <div class="section">
+      <h3>SECTION B: लघु उत्तरीय प्रश्न (किसी भी 15 प्रश्नों के उत्तर दें)</h3>
+      <ol start="41">
+        <li>‘चरित्र निर्माण’ शब्द से आप क्या समझते हैं?</li>
+        <li>‘घनानंद’ की कविता की प्रमुख विशेषताएँ लिखिए।</li>
+        <li>‘अव्ययीभाव समास’ का उदाहरण दीजिए।</li>
+        <li>‘हिरोशिमा’ कविता का संदेश क्या है?</li>
+        <li>‘गुरु नानक’ के उपदेश का मुख्य सार क्या है?</li>
+        <li>‘मैक्समूलर’ ने भारत की किन बातों की प्रशंसा की?</li>
+        <li>‘अत्यधिक’ शब्द का प्रयोग कर दो वाक्य बनाइए।</li>
+        <li>‘रसखान’ का जीवन दर्शन क्या है?</li>
+        <li>‘अग्नि’ शब्द से क्या प्रतीक मिलता है?</li>
+        <li>‘श्रम’ का महत्व स्पष्ट कीजिए।</li>
+        <!-- ... up to 70 -->
+      </ol>
+    </div>
+
+    <hr>
+
+    <div class="section">
+      <h3>SECTION C: दीर्घ उत्तरीय प्रश्न (किसी भी 10 प्रश्नों के उत्तर दें)</h3>
+      <ol start="71">
+        <li>‘भारतीय संस्कृति और शिक्षा’ पर एक निबंध लिखिए।</li>
+        <li>‘घनानंद’ के काव्य में प्रेम का चित्रण कीजिए।</li>
+        <li>‘गुरु नानक’ के उपदेशों पर टिप्पणी करें।</li>
+        <li>‘मैक्समूलर’ द्वारा भारत की प्रशंसा का विश्लेषण करें।</li>
+        <li>‘गांधीजी’ के शिक्षा संबंधी विचारों का विवेचन करें।</li>
+        <li>‘भक्ति साहित्य’ का सामाजिक प्रभाव बताइए।</li>
+        <li>‘हिरोशिमा’ कविता का भावार्थ लिखिए।</li>
+        <li>‘रसखान’ की कविताओं में प्रेम भावना का वर्णन करें।</li>
+        <li>‘भारतीय भाषा और साहित्य’ पर विस्तृत टिप्पणी करें।</li>
+        <li>‘चरित्र निर्माण में शिक्षा’ की भूमिका लिखिए।</li>
+      </ol>
+    </div>
+  </div>
+
+</body>
+</html>
