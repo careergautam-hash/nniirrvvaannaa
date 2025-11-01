@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AK CLASSES — A4 with Fixed Watermarks</title>
+
+  <!-- html2pdf (bundled html2canvas + jsPDF) from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root{
+      --a4-w: 210mm;
+      --a4-h: 297mm;
+      --wm-opacity: 0.08; /* faint */
+      --wm-size: 36px;
+      --wm-font: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* Page container visible in browser and used for PDF */
+    .sheet {
+      width: var(--a4-w);
+      height: var(--a4-h);
+      margin: 20px auto;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      background: white;
+      position: relative;
+      overflow: hidden;
+      -webkit-print-color-adjust: exact; /* keep colors in print */
+      print-color-adjust: exact;
+    }
+
+    /* Content area (text, questions etc.) */
+    .content {
+      box-sizing: border-box;
+      padding: 18mm 16mm; /* page margin */
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 12pt;
+      line-height: 1.18;
+      color: #111;
+    }
+
+    /* Watermark base */
+    .watermark {
+      position: absolute;
+      font-family: var(--wm-font);
+      font-weight: 700;
+      font-size: var(--wm-size);
+      color: #000;
+      opacity: var(--wm-opacity);
+      pointer-events: none; /* don't interfere with selection */
+      user-select: none;
+      white-space: nowrap;
+      transform-origin: center;
+      transform: rotate(-15deg); /* subtle diagonal feel */
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Six fixed watermark positions */
+    .wm-top-left    { top: 18mm; left: 12mm;  }
+    .wm-top-center  { top: 18mm; left: 50%; transform: translateX(-50%) rotate(-15deg);  }
+    .wm-top-right   { top: 18mm; right: 12mm; }
+    .wm-mid-left    { top: 50%; left: 12mm; transform: translateY(-50%) rotate(-15deg); }
+    .wm-mid-right   { top: 50%; right: 12mm; transform: translateY(-50%) rotate(-15deg); }
+    .wm-bottom-center{ bottom: 18mm; left: 50%; transform: translateX(-50%) rotate(-15deg); }
+
+    /* Make sure watermarks scale visually on smaller screens */
+    @media (max-width: 900px){
+      .sheet{ width: calc(100% - 24px); height: auto; }
+      .watermark { font-size: 28px; } 
+    }
+
+    /* Print / PDF-specific adjustments */
+    @media print {
+      body { margin:0; background: #fff; }
+      .sheet { margin: 0; box-shadow: none; page-break-after: always; }
+      /* ensure backgrounds and watermarks print; user may need to enable "Print backgrounds" */
+      .watermark { opacity: var(--wm-opacity); }
+    }
+
+    /* Use @page to recommend paper size in browsers that support it */
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    /* Utility header area for UI */
+    .ui {
+      max-width: calc(var(--a4-w) + 40px);
+      margin: 18px auto;
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      justify-content:flex-end;
+      font-family: Inter, Roboto, Arial, sans-serif;
+    }
+    .btn {
+      display:inline-block;
+      padding:10px 14px;
+      border-radius:6px;
+      background:#0b74de;
+      color:white;
+      text-decoration:none;
+      cursor:pointer;
+      box-shadow: 0 2px 6px rgba(11,116,222,0.18);
+      border: none;
+      font-size: 14px;
+    }
+    .btn.secondary { background: #6c757d; box-shadow:none; }
+    .note { margin-right:auto; color:#444; font-size:13px; }
+  </style>
+</head>
+<body>
+
+  <div class="ui" aria-hidden="false">
+    <div class="note">Preview: A4 document with 6 watermarks</div>
+    <button id="printBtn" class="btn secondary" title="Open print dialog">Print</button>
+    <button id="downloadBtn" class="btn" title="Download as A4 PDF">Download as A4 PDF</button>
+  </div>
+
+  <!-- The A4 sheet shown in the browser and the element used for PDF generation -->
+  <section id="page" class="sheet" role="document" aria-label="A4 sheet with watermarks">
+    <!-- 6 fixed, faint watermarks -->
+    <div class="watermark wm-top-left">AK CLASSES</div>
+    <div class="watermark wm-top-center">AK CLASSES</div>
+    <div class="watermark wm-top-right">AK CLASSES</div>
+    <div class="watermark wm-mid-left">AK CLASSES</div>
+    <div class="watermark wm-mid-right">AK CLASSES</div>
+    <div class="watermark wm-bottom-center">AK CLASSES</div>
+
+    <!-- Visible content of the page -->
+    <div class="content">
+      <h1 style="margin-top:0; font-size:20pt;">AK CLASSES — Sample A4 Document</h1>
+
+      <p><strong>Instructions:</strong> This is a demonstration A4 document with six faint, fixed watermarks that will appear both on-screen and in the generated A4 PDF.</p>
+
+      <h2 style="font-size:14pt; margin-bottom:4px;">Sample content</h2>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non semper justo. Aenean
+        dictum, lorem non bibendum gravida, odio tortor auctor risus, vitae tincidunt lacus ipsum non
+        leo. Curabitur id luctus massa. This content is for visual testing of layout, line spacing,
+        and print generation to A4 PDF client-side.
+      </p>
+
+      <ol>
+        <li>Point one — short line to test spacing.</li>
+        <li>Point two — another test line with a little more text to wrap.</li>
+        <li>Point three — printing and PDF generation test.</li>
+      </ol>
+
+      <p style="margin-bottom:0;">(Add your real content here — the watermarks are positioned using absolute coordinates so they will remain in those locations on the page.)</p>
+    </div>
+  </section>
+
+<script>
+  // Button references
+  const downloadBtn = document.getElementById('downloadBtn');
+  const printBtn = document.getElementById('printBtn');
+  const page = document.getElementById('page');
+
+  // html2pdf options tuned for A4 print-quality
+  const pdfOptions = {
+    margin:       0,               // zero margins; the content already includes page-safe padding in .content
+    filename:     'AK-CLASSES-A4.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  {
+      scale: 2,          // higher scale => better resolution. Increase to 3 for even higher DPI if needed.
+      useCORS: true,
+      allowTaint: true,
+      logging: false,
+      // set background to white to avoid transparency issues
+      backgroundColor: '#ffffff'
+    },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    enableLinks: true,
+    pagebreak: { mode: ['css', 'legacy'] }
+  };
+
+  // Download handler
+  downloadBtn.addEventListener('click', () => {
+    // Provide user feedback (disable button briefly)
+    downloadBtn.disabled = true;
+    downloadBtn.textContent = 'Preparing PDF...';
+
+    // Use html2pdf to convert the element to A4 PDF.
+    // We call html2pdf().from(element).set(opt).save();
+    // Note: html2pdf will capture CSS and positioned elements as rendered.
+    setTimeout(() => {
+      html2pdf().set(pdfOptions).from(page).save().finally(() => {
+        downloadBtn.disabled = false;
+        downloadBtn.textContent = 'Download as A4 PDF';
+      });
+    }, 60); // short delay for UI update
+  });
+
+  // Print handler
+  printBtn.addEventListener('click', () => {
+    // Suggestion: open native print dialog which can also print to "Save as PDF".
+    // This will use the browser's print rendering and @page { size: A4 } hint.
+    printBtn.disabled = true;
+    setTimeout(() => {
+      window.print();
+      printBtn.disabled = false;
+    }, 50);
+  });
+
+  // Helpful fallback: if html2pdf not loaded, show an alert
+  if (typeof html2pdf === 'undefined') {
+    downloadBtn.disabled = true;
+    downloadBtn.title = 'html2pdf library missing — PDF download unavailable';
+    console.warn('html2pdf library is not available. PDF download will not work.');
+  }
+</script>
+
+</body>
+</html>
